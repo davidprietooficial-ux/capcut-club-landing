@@ -1,0 +1,7 @@
+# AppleDouble: el volumen es ExFAT y macOS genera un ._<archivo> por cada
+# archivo real. Ver CLAUDE.md de la herramienta.
+._*
+.DS_Store
+Thumbs.db
+
+node_modules/

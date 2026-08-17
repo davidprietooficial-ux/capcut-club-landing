@@ -1,0 +1,862 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CapCut Club — Edición 2026 · Edita en CapCut como un profesional</title>
+    <meta
+      name="description"
+      content="Seis módulos que empiezan por el criterio de un editor y terminan con CapCut dominado. Acceso por 12 meses renovable. 23 USD, pago único."
+    />
+
+    <!-- En revisión: se quita cuando el cliente apruebe el key visual y el
+         copy definitivo. Hasta entonces la página no se indexa. -->
+    <meta name="robots" content="noindex, nofollow" />
+
+    <link rel="icon" href="activos/favicon.svg" type="image/svg+xml" />
+
+    <!-- La tipografía de titulares es la del LCP (el H1 del hero): se
+         precarga para que el título no llegue con la de reserva. La del
+         cuerpo es Helvetica del sistema — no hay nada que descargar. -->
+    <link
+      rel="preload"
+      href="activos/fuentes/special-gothic-expanded-one.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="estilos.css" />
+  </head>
+  <body>
+    <!-- ══ Barra fija de compra — aparece al salir del hero ═════════════
+         Acompaña toda la página, también en escritorio. El titileo en
+         neón lo pone .btn--neon. -->
+    <div class="barra-fija" data-barra-fija>
+      <div class="env-barra">
+        <span class="precio-mini">
+          <b>23 USD</b>
+          <s>antes 67</s>
+        </span>
+        <a class="btn btn--neon" href="#oferta">Entrar al CapCut Club — 23 USD</a>
+      </div>
+    </div>
+
+    <!-- ══ Soporte por WhatsApp, flotante a la derecha ══════════════════ -->
+    <a
+      class="wa-flotante"
+      href="https://wa.me/573237158237?text=Hola%2C%20tengo%20una%20duda%20sobre%20el%20CapCut%20Club"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Soporte por WhatsApp"
+    >
+      <span class="rotulo">Soporte por WhatsApp</span>
+      <svg width="27" height="27" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+        <path
+          d="M8 0a8 8 0 00-6.9 12L0 16l4.1-1.1A8 8 0 108 0zm0 14.6a6.6 6.6 0 01-3.4-.9l-.2-.1-2.5.6.7-2.4-.2-.3A6.6 6.6 0 118 14.6z"
+        />
+        <path
+          d="M11.6 9.6c-.2-.1-1.2-.6-1.3-.6-.2-.1-.3-.1-.4.1l-.6.7c-.1.1-.2.1-.4 0a5.4 5.4 0 01-2.6-2.3c-.2-.3.2-.3.5-1 0-.1 0-.2-.1-.3L6 5.1c-.1-.3-.3-.3-.4-.3h-.4c-.1 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2.9 2.4c.1.1 1.6 2.6 4 3.5 1.6.6 2.2.7 2.9.6.5-.1 1.2-.5 1.4-1 .2-.5.2-1 .1-1.1 0-.1-.2-.2-.4-.3z"
+        />
+      </svg>
+    </a>
+
+    <!-- ══ 01 · Hero ════════════════════════════════════════════════════ -->
+    <!-- data-fin-hero: cuando esta sección sale por arriba, app.js
+         despliega la barra fija de compra. -->
+    <section class="hero" data-fin-hero>
+      <div class="env">
+        <div class="marca">
+          <span class="nombre">CapCut Club</span>
+          <span class="barra"></span>
+          <span class="sub">Edición 2026</span>
+        </div>
+        <div class="hero-rejilla">
+          <div class="pila">
+            <p class="cejilla">Formación completa · acceso inmediato</p>
+            <h1>Edita en CapCut como un profesional, no como un tutorial de YouTube</h1>
+            <p class="lead">
+              Seis módulos que empiezan por el criterio de un editor — ritmo, corte, composición — y
+              terminan con CapCut dominado en celular y en computador. Sin depender de plantillas ni
+              de tener “buen ojo”.
+            </p>
+
+            <p class="cupos" data-cupos-config data-cupos-inicial="100" data-cupos-piso="7">
+              <span class="punto" aria-hidden="true"></span>
+              Quedan <span data-cupos>100</span> cupos disponibles
+            </p>
+
+            <div style="display: flex; flex-wrap: wrap; gap: 12px; padding-top: 4px">
+              <a class="btn btn--vivo" href="#oferta">Entrar al CapCut Club — 23 USD</a>
+              <a class="btn btn--fantasma" href="#modulos">Ver el temario</a>
+            </div>
+            <div class="prueba-hero">
+              <span>7 días de garantía</span>
+              <span>Acceso por 12 meses renovable</span>
+              <span>Pago único</span>
+            </div>
+          </div>
+
+          <div class="hero-banner">
+            <img
+              src="activos/hero-capcut-club.webp"
+              width="900"
+              height="866"
+              alt="Juan Camilo señalando el logo de CapCut, imagen del CapCut Club edición 2026"
+              fetchpriority="high"
+              decoding="async"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ 02 · Cinta de la oferta ══════════════════════════════════════
+         El segundo juego de la pista es un duplicado exacto del primero:
+         es lo que hace que el bucle no se note. Va aria-hidden para que
+         no se lea dos veces. -->
+    <div class="banda">
+      <div class="pista">
+        <div class="juego">
+          <span>23 USD en vez de 67</span><span class="pt">●</span>
+          <span>6 módulos</span><span class="pt">●</span>
+          <span>Acceso por 12 meses renovable</span><span class="pt">●</span>
+          <span>7 días de garantía</span><span class="pt">●</span>
+          <span>Pago único</span><span class="pt">●</span>
+          <span>Soporte por WhatsApp</span><span class="pt">●</span>
+        </div>
+        <div class="juego" aria-hidden="true">
+          <span>23 USD en vez de 67</span><span class="pt">●</span>
+          <span>6 módulos</span><span class="pt">●</span>
+          <span>Acceso por 12 meses renovable</span><span class="pt">●</span>
+          <span>7 días de garantía</span><span class="pt">●</span>
+          <span>Pago único</span><span class="pt">●</span>
+          <span>Soporte por WhatsApp</span><span class="pt">●</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 · Video de presentación ═══════════════════════════════════
+         Marcador de posición: el archivo todavía no está entregado. En
+         cuanto llegue, se cambia este bloque por un <video> autoalojado
+         16:9 con poster. -->
+    <section class="crema">
+      <div class="env pila">
+        <div class="video-marco" data-revelar>
+          <div>
+            <div class="play">
+              <svg width="20" height="22" viewBox="0 0 20 22" aria-hidden="true">
+                <path d="M0 0v22l20-11z" fill="#ffffff" />
+              </svg>
+            </div>
+            <strong style="color: var(--texto-claro)">Video de presentación</strong>
+            <p style="font-size: 0.86rem; margin-top: 4px">Próximamente</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ 04 · El problema ═════════════════════════════════════════════ -->
+    <section>
+      <div class="env pila">
+        <h2 data-revelar>Si editas en CapCut, seguro te suena esto</h2>
+        <ul class="editorial">
+          <li data-revelar>
+            <span class="indice mal">01</span>
+            <h3>Copias una plantilla y el video termina viéndose igual que el de todos</h3>
+            <p>
+              La plantilla resuelve el montaje, no el criterio. Por eso el resultado se ve correcto y
+              aun así no se distingue de nada.
+            </p>
+          </li>
+          <li data-revelar>
+            <span class="indice mal">02</span>
+            <h3>Pasas tres horas en un reel que después no retiene</h3>
+            <p>
+              El problema casi nunca está en los efectos: está en los primeros tres segundos y en el
+              ritmo de los cortes.
+            </p>
+          </li>
+          <li data-revelar>
+            <span class="indice mal">03</span>
+            <h3>Sabes dónde están los botones, pero no cuál tocar</h3>
+            <p>
+              Aprender la herramienta sin aprender el criterio deja exactamente ahí: con un programa
+              abierto y ninguna decisión clara.
+            </p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ══ 05 · Qué vas a lograr ════════════════════════════════════════ -->
+    <section class="crema">
+      <div class="env pila">
+        <div class="pila-sm" data-revelar>
+          <p class="cejilla">Lo que cambia cuando terminas</p>
+          <h2>Tres cosas que vas a saber hacer</h2>
+        </div>
+        <ul class="editorial">
+          <li data-revelar>
+            <span class="indice">01</span>
+            <h3>Decidir con criterio, no por ensayo y error</h3>
+            <p>
+              Cuándo cortar, cuánto dura un plano, qué entra en cuadro. Los fundamentos que se aplican
+              a cualquier programa y que no caducan con la próxima actualización.
+            </p>
+          </li>
+          <li data-revelar>
+            <span class="indice">02</span>
+            <h3>Construir ganchos que sostienen los primeros segundos</h3>
+            <p>
+              El tramo que decide si alguien se queda o se va, tratado como una estructura que se
+              arma, no como un golpe de suerte.
+            </p>
+          </li>
+          <li data-revelar>
+            <span class="indice">03</span>
+            <h3>Editar rápido en CapCut, en celular y en computador</h3>
+            <p>
+              Un flujo de trabajo propio para las dos versiones, para que grabar y publicar el mismo
+              día deje de ser una jornada entera.
+            </p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ══ 06 · CTA intermedio ══════════════════════════════════════════ -->
+    <section>
+      <div class="env centro pila">
+        <h2 data-revelar>Quiero editar con criterio, no con plantillas</h2>
+        <div data-revelar><a class="btn btn--vivo" href="#oferta">Entrar al CapCut Club — 23 USD</a></div>
+      </div>
+    </section>
+
+    <!-- ══ 07 · Temario ═════════════════════════════════════════════════
+         Dos rejillas distintas: los cuatro de iniciación en una fila de 4
+         en escritorio, y los dos de CapCut Club a mitad y mitad. En móvil
+         las dos van a 2 columnas. -->
+    <section class="crema" id="modulos">
+      <div class="env pila">
+        <div class="pila-sm" data-revelar>
+          <p class="cejilla">El temario completo</p>
+          <h2>Seis módulos, en orden</h2>
+          <p class="lead">
+            Los 4 primeros módulos son la iniciación: fundamentos que sirven en cualquier programa.
+            Los dos últimos son el CapCut Club aplicado, primero en celular y después en computador.
+          </p>
+        </div>
+
+        <div data-revelar>
+          <div class="grupo-titulo">
+            <span>Módulos 1 a 4 · La iniciación</span>
+            <span class="linea"></span>
+          </div>
+          <div class="modulos modulos--4">
+            <article class="modulo">
+              <span class="etq">Módulo 1</span>
+              <h3>Introducción y mentalidad</h3>
+              <p>El criterio de un editor profesional, antes de tocar cualquier software.</p>
+            </article>
+            <article class="modulo">
+              <span class="etq">Módulo 2</span>
+              <h3>Herramientas de edición</h3>
+              <p>Las herramientas con las que vas a editar de forma profesional.</p>
+            </article>
+            <article class="modulo">
+              <span class="etq">Módulo 3</span>
+              <h3>Fundamentos y optimización</h3>
+              <p>Los conceptos básicos y la columna vertebral de cualquier video.</p>
+            </article>
+            <article class="modulo">
+              <span class="etq">Módulo 4</span>
+              <h3>Guion y preproducción</h3>
+              <p>Guiones y preproducción antes de grabar, para no improvisar en la edición.</p>
+            </article>
+          </div>
+        </div>
+
+        <div data-revelar>
+          <div class="grupo-titulo">
+            <span>Módulos 5 y 6 · CapCut Club aplicado</span>
+            <span class="linea"></span>
+          </div>
+          <div class="modulos modulos--2">
+            <article class="modulo modulo--destacado">
+              <span class="etq">Módulo 5</span>
+              <h3>CapCut para celular <span class="proximamente">Próximamente</span></h3>
+              <p>El criterio completo resuelto desde el teléfono, para grabar y publicar el mismo día.</p>
+            </article>
+            <article class="modulo modulo--destacado">
+              <span class="etq">Módulo 6</span>
+              <h3>CapCut para computador <span class="proximamente">Próximamente</span></h3>
+              <p>La versión de escritorio a fondo: proyecto, línea de tiempo, color, exportación.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ 08 · Quién te enseña ═════════════════════════════════════════
+         Mismos componentes que la sección de mentor de la VSL: foto con
+         píldora, ojo + nombre aparte del párrafo, y las cifras de autoría
+         cerrando abajo a todo el ancho. -->
+    <section>
+      <div class="env">
+        <div class="bio">
+          <div class="bio__foto" data-revelar>
+            <img
+              src="activos/juan-perfil.webp"
+              width="900"
+              height="1200"
+              alt="Juan Camilo, mentor del CapCut Club, en su estudio de edición"
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="bio__pildora">Editor experto · Juan Camilo</span>
+          </div>
+
+          <div class="bio__texto" data-revelar>
+            <div class="pila-sm">
+              <p class="cejilla">— Tu mentor</p>
+              <h2 class="bio__nombre">Soy <span>Juan Camilo</span></h2>
+            </div>
+            <p class="lead">
+              Llevo más de <strong>8 años editando</strong> contenido para marcas y creadores en más
+              de <strong>15 industrias distintas</strong>. El material que he editado ha generado más
+              de <strong>2 millones de dólares en revenue</strong> para las personas con las que he
+              trabajado, y he acompañado a <strong>más de 50 alumnos uno a uno</strong> hasta que
+              editan sin depender de nadie.
+            </p>
+            <p class="lead">
+              Este programa es el orden en el que a mí me habría gustado aprender: primero el
+              criterio, después la herramienta. Por eso los cuatro primeros módulos no abren CapCut
+              ni una vez — y cuando lo abres, ya sabes qué estás buscando.
+            </p>
+            <p class="micro">Nos vemos adentro.</p>
+          </div>
+
+          <dl class="cifras bio__cifras" data-revelar>
+            <div>
+              <dt>+2 Millones</dt>
+              <dd>De dólares<br />en revenue</dd>
+            </div>
+            <div>
+              <dt>+15</dt>
+              <dd>Industrias<br />diferentes</dd>
+            </div>
+            <div>
+              <dt>+1.000</dt>
+              <dd>Videos<br />editados</dd>
+            </div>
+            <div>
+              <dt>+50</dt>
+              <dd>Alumnos<br />1 a 1</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ 09 · Antes y después ═════════════════════════════════════════ -->
+    <section class="crema">
+      <div class="env pila">
+        <div class="pila-sm centro" data-revelar>
+          <p class="cejilla">La misma grabación</p>
+          <h2>Antes y después</h2>
+          <p class="lead">El mismo material en bruto, editado con el método. Sin retoques de cámara.</p>
+        </div>
+        <div class="comparativa" data-revelar>
+          <div>
+            <span class="etiqueta-clip antes">Antes · sin editar</span>
+            <div class="clip">Video vertical<br />material en bruto</div>
+          </div>
+          <span class="flecha emoji" role="img" aria-label="se convierte en">➡️</span>
+          <div>
+            <span class="etiqueta-clip despues">Después · con el método</span>
+            <div class="clip">Video vertical<br />editado</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ 10 · Testimonios ═════════════════════════════════════════════
+         Reproductor propio, sin YouTube ni iframes. Cada <video> arranca
+         con `controls` puesto — si el JS no llega a correr, el navegador
+         igual lo deja reproducir. app.js se lo quita solo cuando el botón
+         y la barra ya están enganchados. -->
+    <section>
+      <div class="env pila">
+        <div class="pila-sm" data-revelar>
+          <p class="cejilla">Prueba</p>
+          <h2>Lo que dicen quienes ya lo hicieron</h2>
+        </div>
+        <div class="testimonios">
+          <div data-revelar>
+            <div class="reproductor" data-reproductor="valentina">
+              <video
+                class="reproductor__video"
+                data-reproductor-video
+                controls
+                controlslist="nodownload noplaybackrate"
+                playsinline
+                muted
+                preload="metadata"
+                poster="activos/testimonios/valentina-rojas.webp"
+                width="720"
+                height="1280"
+                aria-label="Video testimonio de Valentina Rojas"
+              >
+                <source src="activos/testimonios/valentina-rojas.mp4" type="video/mp4" />
+              </video>
+              <button
+                type="button"
+                class="reproductor__boton"
+                data-reproductor-boton
+                aria-label="Reproducir video de Valentina Rojas"
+              >
+                <svg data-icono-play width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+                <svg data-icono-pausa style="display: none" width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M7 5h4v14H7zM13 5h4v14h-4z" />
+                </svg>
+              </button>
+              <div class="reproductor__pie">
+                <div
+                  class="reproductor__barra"
+                  data-reproductor-barra
+                  role="progressbar"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  aria-valuenow="0"
+                  aria-label="Progreso del video"
+                >
+                  <div class="reproductor__barra-relleno" data-reproductor-relleno></div>
+                </div>
+                <p class="reproductor__nombre">Valentina Rojas</p>
+              </div>
+            </div>
+            <div class="testi-pie">
+              <b>Valentina Rojas</b><small>Editora de video</small>
+            </div>
+          </div>
+
+          <div data-revelar>
+            <div class="reproductor" data-reproductor="juan-g">
+              <video
+                class="reproductor__video"
+                data-reproductor-video
+                controls
+                controlslist="nodownload noplaybackrate"
+                playsinline
+                muted
+                preload="metadata"
+                poster="activos/testimonios/juan-guzman.webp"
+                width="720"
+                height="1280"
+                aria-label="Video testimonio de Juan Guzmán"
+              >
+                <source src="activos/testimonios/juan-guzman.mp4" type="video/mp4" />
+              </video>
+              <button
+                type="button"
+                class="reproductor__boton"
+                data-reproductor-boton
+                aria-label="Reproducir video de Juan Guzmán"
+              >
+                <svg data-icono-play width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+                <svg data-icono-pausa style="display: none" width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M7 5h4v14H7zM13 5h4v14h-4z" />
+                </svg>
+              </button>
+              <div class="reproductor__pie">
+                <div
+                  class="reproductor__barra"
+                  data-reproductor-barra
+                  role="progressbar"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  aria-valuenow="0"
+                  aria-label="Progreso del video"
+                >
+                  <div class="reproductor__barra-relleno" data-reproductor-relleno></div>
+                </div>
+                <p class="reproductor__nombre">Juan Guzmán</p>
+              </div>
+            </div>
+            <div class="testi-pie">
+              <b>Juan Guzmán</b><small>Realizador audiovisual</small>
+            </div>
+          </div>
+
+          <div data-revelar>
+            <div class="reproductor" data-reproductor="juanita">
+              <video
+                class="reproductor__video"
+                data-reproductor-video
+                controls
+                controlslist="nodownload noplaybackrate"
+                playsinline
+                muted
+                preload="metadata"
+                poster="activos/testimonios/juanita-gomez.webp"
+                width="720"
+                height="1280"
+                aria-label="Video testimonio de Juanita Gómez"
+              >
+                <source src="activos/testimonios/juanita-gomez.mp4" type="video/mp4" />
+              </video>
+              <button
+                type="button"
+                class="reproductor__boton"
+                data-reproductor-boton
+                aria-label="Reproducir video de Juanita Gómez"
+              >
+                <svg data-icono-play width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+                <svg data-icono-pausa style="display: none" width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M7 5h4v14H7zM13 5h4v14h-4z" />
+                </svg>
+              </button>
+              <div class="reproductor__pie">
+                <div
+                  class="reproductor__barra"
+                  data-reproductor-barra
+                  role="progressbar"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  aria-valuenow="0"
+                  aria-label="Progreso del video"
+                >
+                  <div class="reproductor__barra-relleno" data-reproductor-relleno></div>
+                </div>
+                <p class="reproductor__nombre">Juanita Gómez</p>
+              </div>
+            </div>
+            <div class="testi-pie">
+              <b>Juanita Gómez</b><small>Médico</small>
+            </div>
+          </div>
+
+          <div data-revelar>
+            <div class="reproductor" data-reproductor="david">
+              <video
+                class="reproductor__video"
+                data-reproductor-video
+                controls
+                controlslist="nodownload noplaybackrate"
+                playsinline
+                muted
+                preload="metadata"
+                poster="activos/testimonios/david-prieto.webp"
+                width="720"
+                height="1280"
+                aria-label="Video testimonio de David Prieto"
+              >
+                <source src="activos/testimonios/david-prieto.mp4" type="video/mp4" />
+              </video>
+              <button
+                type="button"
+                class="reproductor__boton"
+                data-reproductor-boton
+                aria-label="Reproducir video de David Prieto"
+              >
+                <svg data-icono-play width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+                <svg data-icono-pausa style="display: none" width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M7 5h4v14H7zM13 5h4v14h-4z" />
+                </svg>
+              </button>
+              <div class="reproductor__pie">
+                <div
+                  class="reproductor__barra"
+                  data-reproductor-barra
+                  role="progressbar"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  aria-valuenow="0"
+                  aria-label="Progreso del video"
+                >
+                  <div class="reproductor__barra-relleno" data-reproductor-relleno></div>
+                </div>
+                <p class="reproductor__nombre">David Prieto</p>
+              </div>
+            </div>
+            <div class="testi-pie">
+              <b>David Prieto</b><small>Emprendedor digital</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ 11 · La oferta ═══════════════════════════════════════════════ -->
+    <section class="oferta" id="oferta">
+      <div class="oferta-env">
+        <div class="pila-sm centro" data-revelar>
+          <p class="cejilla">Acceso completo</p>
+          <h2>Todo el programa, un solo pago</h2>
+        </div>
+        <div class="tarjeta-precio" data-revelar>
+          <div class="pila">
+            <!-- El mockup de la caja va justo encima del precio. -->
+            <img
+              class="mockup-precio"
+              src="activos/mockup-caja.webp"
+              width="386"
+              height="526"
+              alt="Caja del CapCut Club, edición 2026"
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="precio-linea">
+              <span class="cifra">23</span>
+              <span class="usd">USD</span>
+              <s>antes 67 USD</s>
+            </div>
+            <p style="color: var(--texto-claro-suave); font-size: 0.94rem">
+              Pago único. Acceso por 12 meses renovable.
+            </p>
+            <a
+              class="btn btn--ancho btn--vivo"
+              href="https://pay.hotmart.com/M107158341L?off=oynghv9l&amp;checkoutMode=10&amp;bid=1786761312497"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Comprar ahora — 23 USD</a
+            >
+            <p class="cupos" style="align-self: center">
+              <span class="punto" aria-hidden="true"></span>
+              Quedan <span data-cupos>100</span> cupos disponibles
+            </p>
+            <p class="micro" style="color: var(--texto-claro-suave); text-align: center">
+              Pago seguro por Hotmart · Visa · Mastercard · PayPal
+            </p>
+          </div>
+          <ul class="incluye">
+            <li>
+              <svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M2 8.5l4 4 8-9" fill="none" stroke="#4ADE80" stroke-width="2.4" stroke-linecap="square" />
+              </svg>
+              <span>Los 6 módulos completos — 4 de iniciación y 2 de CapCut Club aplicado</span>
+            </li>
+            <li>
+              <svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M2 8.5l4 4 8-9" fill="none" stroke="#4ADE80" stroke-width="2.4" stroke-linecap="square" />
+              </svg>
+              <span>Acceso por 12 meses renovable</span>
+            </li>
+            <li>
+              <svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M2 8.5l4 4 8-9" fill="none" stroke="#4ADE80" stroke-width="2.4" stroke-linecap="square" />
+              </svg>
+              <span>Los módulos de CapCut Club aplicado en cuanto se publiquen (próximamente)</span>
+            </li>
+            <li>
+              <svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M2 8.5l4 4 8-9" fill="none" stroke="#4ADE80" stroke-width="2.4" stroke-linecap="square" />
+              </svg>
+              <span>Soporte por WhatsApp</span>
+            </li>
+            <li>
+              <svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M2 8.5l4 4 8-9" fill="none" stroke="#4ADE80" stroke-width="2.4" stroke-linecap="square" />
+              </svg>
+              <span>Acceso entregado por correo apenas se confirma la compra</span>
+            </li>
+            <li>
+              <svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M2 8.5l4 4 8-9" fill="none" stroke="#4ADE80" stroke-width="2.4" stroke-linecap="square" />
+              </svg>
+              <span>7 días de garantía — la devolución la gestiona Hotmart, no nosotros</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ 12 · Sellos ══════════════════════════════════════════════════ -->
+    <section>
+      <div class="env">
+        <div class="sellos" data-revelar>
+          <div>
+            <span class="emoji" role="img" aria-hidden="true">💳</span>
+            <b>Compra segura</b><small>Pago cifrado por Hotmart</small>
+          </div>
+          <div>
+            <span class="emoji" role="img" aria-hidden="true">📩</span>
+            <b>Entrega por correo</b><small>Acceso apenas se confirma</small>
+          </div>
+          <div>
+            <span class="emoji" role="img" aria-hidden="true">🛡️</span>
+            <b>Garantía de 7 días</b><small>Devolución automática</small>
+          </div>
+          <div>
+            <span class="emoji" role="img" aria-hidden="true">🔒</span>
+            <b>Privacidad</b><small>Tu información está protegida</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ 13 · Preguntas frecuentes ════════════════════════════════════
+         Tres columnas en escritorio, una por grupo temático. -->
+    <section class="crema">
+      <div class="env faq">
+        <div class="pila-sm" style="margin-bottom: 18px" data-revelar>
+          <p class="cejilla">Antes de decidir</p>
+          <h2>Preguntas frecuentes</h2>
+        </div>
+
+        <div class="faq-rejilla">
+          <div data-revelar>
+            <p class="grupo">Sobre tu nivel</p>
+            <details>
+              <summary>¿Sirve si nunca he editado un video?</summary>
+              <p>
+                Sí. El módulo 1 empieza en el criterio de un editor, no en botones de software — está
+                pensado para alguien que arranca de cero, no solo para quien ya edita y quiere pulir.
+              </p>
+            </details>
+            <details>
+              <summary>¿Necesito tener “buen ojo” o ser creativo de por sí?</summary>
+              <p>
+                No. El método enseña a tomar esas decisiones con criterio — ritmo, corte, composición
+                — en vez de depender de talento previo.
+              </p>
+            </details>
+            <details>
+              <summary>¿Necesito computador o me sirve el celular?</summary>
+              <p>
+                Te sirven los dos. El módulo 5 es CapCut para celular y el módulo 6 es CapCut para
+                computador, así que puedes empezar con lo que tengas a mano.
+              </p>
+            </details>
+          </div>
+
+          <div data-revelar>
+            <p class="grupo">Sobre la oferta y el precio</p>
+            <details>
+              <summary>¿Qué incluye exactamente?</summary>
+              <p>
+                Seis módulos: cuatro de iniciación que aplican a cualquier programa, uno de CapCut
+                para celular y uno de CapCut para computador.
+              </p>
+            </details>
+            <details>
+              <summary>¿Es un pago único o hay cuotas?</summary>
+              <p>Pago único de 23 USD. No hay cobros recurrentes.</p>
+            </details>
+            <details>
+              <summary>¿Por cuánto tiempo tengo acceso?</summary>
+              <p>Doce meses desde el momento de la compra, renovables.</p>
+            </details>
+          </div>
+
+          <div data-revelar>
+            <p class="grupo">Sobre la compra y el acceso</p>
+            <details>
+              <summary>¿Cómo recibo el acceso?</summary>
+              <p>Por correo electrónico, apenas se confirma la compra.</p>
+            </details>
+            <details>
+              <summary>¿Qué pasa si no me gusta o no es lo que esperaba?</summary>
+              <p>
+                Tienes 7 días de garantía. La devolución la gestiona Hotmart de forma automática, no
+                nosotros.
+              </p>
+            </details>
+            <details>
+              <summary>¿Es seguro pagar aquí?</summary>
+              <p>
+                Sí. El pago lo procesa Hotmart, una de las plataformas de venta de cursos más grandes
+                de Latinoamérica, con cifrado de extremo a extremo. Aceptan Visa, Mastercard y PayPal,
+                entre otros.
+              </p>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ 14 · Cierre ══════════════════════════════════════════════════ -->
+    <section class="cierre">
+      <div class="env pila">
+        <h2 data-revelar>23 USD hoy, o seguir improvisando cada edición</h2>
+        <p class="lead" style="margin-inline: auto" data-revelar>
+          Si en siete días te parece que no era para ti, Hotmart te devuelve el dinero sin que tengas
+          que escribirnos.
+        </p>
+        <div data-revelar><a class="btn btn--vivo" href="#oferta">Entrar al CapCut Club — 23 USD</a></div>
+      </div>
+    </section>
+
+    <!-- ══ 15 · Cinta, otra vez, justo antes del pie ════════════════════ -->
+    <div class="banda">
+      <div class="pista">
+        <div class="juego">
+          <span>23 USD en vez de 67</span><span class="pt">●</span>
+          <span>6 módulos</span><span class="pt">●</span>
+          <span>Acceso por 12 meses renovable</span><span class="pt">●</span>
+          <span>7 días de garantía</span><span class="pt">●</span>
+          <span>Pago único</span><span class="pt">●</span>
+          <span>Soporte por WhatsApp</span><span class="pt">●</span>
+        </div>
+        <div class="juego" aria-hidden="true">
+          <span>23 USD en vez de 67</span><span class="pt">●</span>
+          <span>6 módulos</span><span class="pt">●</span>
+          <span>Acceso por 12 meses renovable</span><span class="pt">●</span>
+          <span>7 días de garantía</span><span class="pt">●</span>
+          <span>Pago único</span><span class="pt">●</span>
+          <span>Soporte por WhatsApp</span><span class="pt">●</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 16 · Pie ═════════════════════════════════════════════════════ -->
+    <footer>
+      <div class="env">
+        <div class="pie-rejilla">
+          <div class="pila-sm">
+            <h3>¿Dudas antes de comprar?</h3>
+            <p style="font-size: 0.92rem">Escríbenos por WhatsApp y te respondemos.</p>
+            <div style="padding-top: 6px">
+              <a class="wa" href="https://wa.me/573237158237" target="_blank" rel="noopener noreferrer">
+                <svg width="17" height="17" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                  <path
+                    d="M8 0a8 8 0 00-6.9 12L0 16l4.1-1.1A8 8 0 108 0zm0 14.6a6.6 6.6 0 01-3.4-.9l-.2-.1-2.5.6.7-2.4-.2-.3A6.6 6.6 0 118 14.6z"
+                  />
+                  <path
+                    d="M11.6 9.6c-.2-.1-1.2-.6-1.3-.6-.2-.1-.3-.1-.4.1l-.6.7c-.1.1-.2.1-.4 0a5.4 5.4 0 01-2.6-2.3c-.2-.3.2-.3.5-1 0-.1 0-.2-.1-.3L6 5.1c-.1-.3-.3-.3-.4-.3h-.4c-.1 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2.9 2.4c.1.1 1.6 2.6 4 3.5 1.6.6 2.2.7 2.9.6.5-.1 1.2-.5 1.4-1 .2-.5.2-1 .1-1.1 0-.1-.2-.2-.4-.3z"
+                  />
+                </svg>
+                +57 323 715 8237
+              </a>
+            </div>
+          </div>
+          <div class="pila-sm">
+            <h3>Legales</h3>
+            <div class="legales">
+              <a href="#">Aviso legal</a>
+              <a href="#">Términos y condiciones</a>
+              <a href="#">Política de privacidad</a>
+            </div>
+            <p style="font-size: 0.84rem; padding-top: 6px">
+              Mirai Group Co S.A.S. — Todos los derechos reservados 2026
+            </p>
+          </div>
+        </div>
+        <p class="pie-nota">
+          Este sitio no está afiliado a CapCut ni a ByteDance. CapCut es una marca registrada de sus
+          respectivos propietarios.
+        </p>
+      </div>
+    </footer>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,1422 @@
+/* ═══════════════════════════════════════════════════════════════════════
+ * CapCut Club · Edición 2026
+ * Tema claro. Identidad de Plan de Edición Total invertida a claro.
+ *
+ * ── CÓMO SE CAMBIA EL COLOR ──────────────────────────────────────────
+ * Todo el acento vive en el bloque ACENTO de :root. Para cambiar la
+ * identidad de color se tocan esas siete variables y nada más — no hay
+ * ni un solo color de acento literal fuera de ese bloque en toda la
+ * hoja. Hoy: el azul del key visual "CAPCUT CLUB by @juan.edita".
+ * ═══════════════════════════════════════════════════════════════════════ */
+
+/* Solo la tipografía de titulares se autoaloja. El cuerpo es Helvetica:
+   en Apple resuelve a Helvetica Neue real, y fuera de Apple cae en Arial
+   / Liberation Sans, que son métricamente compatibles — sin descarga, sin
+   licencia que redistribuir y sin salto de layout. */
+@font-face {
+  font-family: "Special Gothic Expanded One";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("activos/fuentes/special-gothic-expanded-one.woff2") format("woff2");
+}
+
+:root {
+  /* ── Superficies claras ── */
+  --fondo: #ffffff;
+  --superficie: #f7f4ef;
+  --elevada: #efe9df;
+  --borde: #e3dbcf;
+
+  /* ── Tinta ── */
+  --texto: #141210;
+  --texto-suave: #6e6257;
+
+  /* ── Bloque oscuro (precio y pie) ── */
+  --oscuro: #141210;
+  --oscuro-2: #1f1b17;
+  --borde-oscuro: #3a3128;
+  --texto-claro: #f5f1ea;
+  --texto-claro-suave: #b8ab9c;
+
+  /* ═══ ACENTO — azul del key visual de CapCut Club ═══════════════════
+   * Tomado del arco azul del banner "CAPCUT CLUB by @juan.edita": un
+   * azul cielo (~#4FA9F5) sobre fondo casi blanco. De ahí sale toda la
+   * rampa, de claro a profundo.
+   *
+   * --acento-claro  cielo. Para halos y para acento SOBRE FONDO OSCURO
+   * --acento        el azul de marca: relleno, bordes, barras
+   * --acento-hondo  extremo profundo del degradado
+   * --acento-texto  texto de acento SOBRE FONDO CLARO — 5.6:1 en blanco
+   * --acento-tenue  fondo suave de tarjetas destacadas
+   * --acento-neon   halo del hover y del titileo
+   * --acento-tinta  tinta que va ENCIMA del relleno de acento
+   *
+   * El degradado del relleno arranca en #2A7ED6 y no en el cielo puro a
+   * propósito: con blanco encima, el extremo claro tiene que quedarse en
+   * 4.6:1 o el texto del botón deja de pasar AA en la esquina clara.
+   * ═══════════════════════════════════════════════════════════════════ */
+  --acento-claro: #6fc5ff;
+  --acento: #2a7ed6;
+  --acento-hondo: #0a4595;
+  --acento-texto: #0f63c4;
+  --acento-tenue: #eaf4ff;
+  --acento-neon: #4fb0ff;
+  --acento-tinta: #ffffff;
+
+  /* Derivados — no se tocan al cambiar de color. */
+  --acento-degradado: linear-gradient(
+    135deg,
+    var(--acento) 0%,
+    #155fc0 52%,
+    var(--acento-hondo) 100%
+  );
+  /* Sobre fondo OSCURO el degradado se invierte: el mismo azul, pero por
+     la mitad clara de la rampa, o no se vería. */
+  --acento-degradado-claro: linear-gradient(
+    135deg,
+    #9bd8ff 0%,
+    var(--acento-claro) 45%,
+    #3f9df0 100%
+  );
+  --acento-rgb: 79, 176, 255; /* = --acento-neon, para los rgba() del halo */
+
+  /* ── Semáforo ── */
+  --verde: #15803d;
+  --verde-vivo: #4ade80;
+  --rojo: #c81e14;
+  --rojo-tenue: #fdeceb;
+
+  /* ── Tipografía ── */
+  --display: "Special Gothic Expanded One", system-ui, sans-serif;
+  --cuerpo: "Helvetica Neue", Helvetica, Arial, "Liberation Sans", system-ui, sans-serif;
+  /* Los emojis se piden explícitamente a la fuente de Apple primero: en
+     iPhone, iPad y Mac salen los de Apple. La fuente de Apple no se puede
+     redistribuir, así que fuera de Apple cae en la del sistema. */
+  --emoji: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+
+  /* ── Forma: escala de 3, como el contrato ── */
+  --r-sm: 0px;
+  --r-md: 2px;
+  --r-lg: 12px;
+
+  /* ── Medidas ── */
+  --contenedor: 1200px;
+  --texto-max: 68ch;
+  --seccion-y: 32px;
+  --barra-alto: 72px; /* alto real de la barra fija; lo recalcula app.js */
+}
+@media (min-width: 768px) {
+  :root {
+    --seccion-y: 48px;
+  }
+}
+@media (min-width: 1024px) {
+  :root {
+    --seccion-y: 64px;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--texto);
+  font-family: var(--cuerpo);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+img,
+video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* La barra fija tapa el final de la página solo mientras está desplegada.
+   La clase la pone app.js al salir del hero — así el pie nunca queda
+   tapado antes de tiempo ni sobra hueco en la primera pantalla. */
+body.con-barra {
+  padding-bottom: var(--barra-alto);
+}
+
+.env {
+  max-width: var(--contenedor);
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+section {
+  padding-block: calc(var(--seccion-y) * 1.25);
+}
+.crema {
+  background: var(--superficie);
+}
+
+/* ── Tipografía ───────────────────────────────────────────────────────── */
+h1,
+h2,
+h3,
+.display {
+  font-family: var(--display);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: -0.015em;
+  margin: 0;
+  text-wrap: balance;
+}
+h1 {
+  font-size: clamp(1.95rem, 7vw, 3.3rem);
+  line-height: 0.98;
+}
+h2 {
+  font-size: clamp(1.45rem, 4.4vw, 2.15rem);
+  line-height: 1.02;
+}
+h3 {
+  font-size: 1.02rem;
+  line-height: 1.15;
+  letter-spacing: 0;
+}
+p {
+  margin: 0;
+}
+.lead {
+  font-size: clamp(1rem, 2.2vw, 1.14rem);
+  color: var(--texto-suave);
+  max-width: var(--texto-max);
+}
+.micro {
+  font-size: 0.84rem;
+  color: var(--texto-suave);
+}
+.cejilla {
+  font-family: var(--cuerpo);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--acento-texto);
+}
+.pila {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.pila-sm {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.centro {
+  text-align: center;
+}
+.centro .lead {
+  margin-inline: auto;
+}
+strong {
+  font-weight: 700;
+  color: inherit;
+}
+.emoji {
+  font-family: var(--emoji);
+  font-style: normal;
+  line-height: 1;
+}
+/* Marca de "todavía no está listo". Se usa en los módulos de CapCut Club,
+   que son los que se están montando ahora mismo. */
+.proximamente {
+  display: inline-block;
+  font-family: var(--cuerpo);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--acento-texto);
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  padding: 2px 9px;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+/* ── Botón ────────────────────────────────────────────────────────────
+ * Relleno en degradado de acento. Al pasar el ratón: sube 2px y se
+ * enciende el halo de neón. `will-change` no se declara a propósito —
+ * son pocos elementos y el compositor ya los promociona con el
+ * transform del hover.
+ * ─────────────────────────────────────────────────────────────────── */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--acento-degradado);
+  color: var(--acento-tinta);
+  font-family: var(--cuerpo);
+  font-weight: 700;
+  font-size: 1.02rem;
+  line-height: 1.2;
+  text-decoration: none;
+  border: 0;
+  border-radius: var(--r-lg);
+  padding: 17px 28px;
+  min-height: 56px;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    transform 0.18s cubic-bezier(0.34, 1.4, 0.64, 1),
+    box-shadow 0.22s ease,
+    filter 0.18s ease;
+}
+.btn:hover,
+.btn:focus-visible {
+  transform: translateY(-2px);
+  filter: saturate(1.12) brightness(1.06);
+  box-shadow:
+    0 0 0 1px rgba(var(--acento-rgb), 0.5),
+    0 0 18px 2px rgba(var(--acento-rgb), 0.55),
+    0 0 44px 8px rgba(var(--acento-rgb), 0.3);
+}
+.btn:active {
+  transform: translateY(0);
+}
+.btn--ancho {
+  width: 100%;
+}
+.btn--fantasma {
+  background: transparent;
+  color: var(--texto);
+  border: 1px solid var(--borde);
+}
+.btn--fantasma:hover,
+.btn--fantasma:focus-visible {
+  background: var(--superficie);
+  border-color: var(--acento);
+  filter: none;
+}
+
+/* El salto de reposo: solo lo llevan los CTA principales, no todos los
+   botones — si saltara todo, no destacaría ninguno. */
+.btn--vivo {
+  animation: salto 3.4s cubic-bezier(0.34, 1.4, 0.64, 1) infinite;
+}
+.btn--vivo:hover {
+  animation-play-state: paused;
+}
+@keyframes salto {
+  0%,
+  84%,
+  100% {
+    transform: translateY(0);
+  }
+  90% {
+    transform: translateY(-5px);
+  }
+  95% {
+    transform: translateY(-2px);
+  }
+}
+
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible {
+  outline: 3px solid var(--acento);
+  outline-offset: 3px;
+}
+
+/* ── Barra fija de compra ─────────────────────────────────────────────
+ * Aparece al salir del hero y acompaña el resto de la página, en todos
+ * los tamaños (antes desaparecía en escritorio). El botón titila en
+ * neón; el titileo va sobre box-shadow y opacidad, nunca sobre color de
+ * fondo, para no romper el contraste del texto en ningún fotograma.
+ * ─────────────────────────────────────────────────────────────────── */
+.barra-fija {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 60;
+  background: var(--fondo);
+  border-top: 1px solid var(--borde);
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 -6px 20px -12px rgba(20, 18, 16, 0.35);
+  transform: translateY(110%);
+  transition:
+    transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0.32s;
+  visibility: hidden;
+}
+.barra-fija.visible {
+  transform: translateY(0);
+  visibility: visible;
+}
+.barra-fija .env-barra {
+  max-width: var(--contenedor);
+  margin-inline: auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+/* En móvil el precio suelto sobra: el botón ya dice "23 USD", y con los
+   dos al lado el conjunto no cabía en 390px. Aparece desde tableta. */
+.barra-fija .precio-mini {
+  display: none;
+  flex-direction: column;
+  line-height: 1.1;
+  flex: none;
+}
+@media (min-width: 768px) {
+  .barra-fija .precio-mini {
+    display: flex;
+  }
+}
+.barra-fija .precio-mini b {
+  font-family: var(--display);
+  font-size: 1.3rem;
+  letter-spacing: -0.01em;
+}
+.barra-fija .precio-mini s {
+  font-size: 0.76rem;
+  color: var(--texto-suave);
+}
+.barra-fija .btn {
+  flex: 1;
+  min-width: 0; /* sin esto el texto largo impide encoger y desborda */
+  min-height: 48px;
+  padding: 12px 14px;
+  font-size: 0.92rem;
+}
+@media (min-width: 1024px) {
+  .barra-fija .btn {
+    flex: none;
+    margin-left: auto;
+    padding: 14px 34px;
+    font-size: 1rem;
+  }
+}
+
+.btn--neon {
+  animation: titileo 1.6s ease-in-out infinite;
+}
+@keyframes titileo {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 1px rgba(var(--acento-rgb), 0.35),
+      0 0 12px 1px rgba(var(--acento-rgb), 0.4);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px rgba(var(--acento-rgb), 0.8),
+      0 0 26px 5px rgba(var(--acento-rgb), 0.85),
+      0 0 52px 12px rgba(var(--acento-rgb), 0.4);
+  }
+}
+
+/* ── WhatsApp flotante ────────────────────────────────────────────────
+ * Siempre a la derecha. Se levanta por encima de la barra fija cuando
+ * esta está desplegada, para que nunca se solapen.
+ * ─────────────────────────────────────────────────────────────────── */
+.wa-flotante {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 55;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: #25d366;
+  color: #06301a;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 10px 26px -8px rgba(20, 18, 16, 0.45);
+  transition:
+    bottom 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.18s ease,
+    box-shadow 0.22s ease;
+}
+body.con-barra .wa-flotante {
+  bottom: calc(var(--barra-alto) + 14px + env(safe-area-inset-bottom));
+}
+.wa-flotante:hover,
+.wa-flotante:focus-visible {
+  transform: scale(1.08);
+  box-shadow: 0 0 0 4px rgba(37, 211, 102, 0.28), 0 10px 26px -8px rgba(20, 18, 16, 0.45);
+}
+.wa-flotante .rotulo {
+  position: absolute;
+  right: calc(100% + 10px);
+  white-space: nowrap;
+  background: var(--oscuro);
+  color: var(--texto-claro);
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 7px 12px;
+  border-radius: var(--r-lg);
+  opacity: 0;
+  transform: translateX(6px);
+  pointer-events: none;
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease;
+}
+.wa-flotante:hover .rotulo,
+.wa-flotante:focus-visible .rotulo {
+  opacity: 1;
+  transform: translateX(0);
+}
+@media (max-width: 767px) {
+  .wa-flotante .rotulo {
+    display: none;
+  }
+}
+
+/* ── Contador de cupos ────────────────────────────────────────────────
+ * Urgencia simulada, igual que en plan-edicion-total: arranca alto y
+ * baja despacio, con piso. Nunca llega a 0 — "0 cupos" se leería como
+ * que ya no se puede comprar, y sí se puede.
+ * ─────────────────────────────────────────────────────────────────── */
+.cupos {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--acento-texto);
+  background: var(--acento-tenue);
+  border: 1px solid var(--acento);
+  border-radius: 999px;
+  padding: 7px 15px;
+  align-self: flex-start;
+}
+.cupos .punto {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--acento);
+  flex: none;
+  animation: latido 1.8s ease-in-out infinite;
+}
+@keyframes latido {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(var(--acento-rgb), 0.7);
+  }
+  70% {
+    opacity: 0.75;
+    box-shadow: 0 0 0 7px rgba(var(--acento-rgb), 0);
+  }
+}
+.oferta .cupos {
+  background: transparent;
+  color: var(--acento-claro);
+  border-color: var(--acento-claro);
+  align-self: center;
+}
+.oferta .cupos .punto {
+  background: var(--acento-claro);
+}
+
+/* ── Hero ─────────────────────────────────────────────────────────────── */
+.hero {
+  padding-top: 28px;
+  padding-bottom: calc(var(--seccion-y) * 1.1);
+}
+.hero-rejilla {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+  align-items: center;
+}
+@media (min-width: 1024px) {
+  .hero-rejilla {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: 40px;
+  }
+}
+.marca {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 26px;
+}
+.marca .nombre {
+  font-family: var(--display);
+  text-transform: uppercase;
+  font-size: 0.98rem;
+  letter-spacing: 0.02em;
+}
+.marca .barra {
+  width: 26px;
+  height: 4px;
+  background: var(--acento-degradado);
+  align-self: center;
+}
+.marca .sub {
+  font-size: 0.74rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+.resalte {
+  color: var(--acento-texto);
+}
+
+/* Banner del hero: el recorte de Juan con el logo de CapCut. Va sin
+   marco ni fondo — es un PNG con alfa, el resplandor lo pone el CSS. */
+.hero-banner {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+.hero-banner::before {
+  content: "";
+  position: absolute;
+  inset: 8% 4% 12%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(var(--acento-rgb), 0.26), transparent 68%);
+  filter: blur(28px);
+  z-index: 0;
+}
+.hero-banner img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 460px;
+  filter: drop-shadow(0 24px 40px rgba(20, 18, 16, 0.22));
+}
+@media (min-width: 1024px) {
+  .hero-banner img {
+    max-width: 100%;
+  }
+}
+.prueba-hero {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  padding-top: 4px;
+}
+.prueba-hero span {
+  font-size: 0.84rem;
+  color: var(--texto-suave);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+/* ── Cinta de la oferta ───────────────────────────────────────────────
+ * Marquesina real. La pista lleva el contenido DUPLICADO exacto y se
+ * desplaza de izquierda a derecha un 50% — al llegar, el segundo juego
+ * queda exactamente donde estaba el primero y el reinicio no se ve.
+ * El duplicado va con aria-hidden: un lector de pantalla lo leería dos
+ * veces.
+ * ─────────────────────────────────────────────────────────────────── */
+.banda {
+  background: var(--acento-degradado);
+  color: var(--acento-tinta);
+  overflow: hidden;
+  padding-block: 11px;
+  font-weight: 700;
+  font-size: 0.92rem;
+  letter-spacing: 0.02em;
+}
+.banda .pista {
+  display: flex;
+  width: max-content;
+  white-space: nowrap;
+  transform: translateX(-50%);
+  animation: cinta 34s linear infinite;
+}
+.banda .juego {
+  display: flex;
+  flex: none;
+}
+.banda .juego span {
+  margin-inline: 14px;
+}
+.banda .pt {
+  opacity: 0.5;
+}
+@keyframes cinta {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* ── Cifras de autoría (van dentro de la bio) ─────────────────────────── */
+.cifras {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--borde);
+  border: 1px solid var(--borde);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  margin: 0;
+}
+@media (min-width: 1024px) {
+  .cifras {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+.cifras > div {
+  background: var(--fondo);
+  padding: 20px 16px;
+  text-align: center;
+}
+.cifras dt {
+  display: block;
+  font-family: var(--display);
+  font-size: clamp(1.2rem, 3.4vw, 1.6rem);
+  color: var(--acento-texto);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+.cifras dd {
+  display: block;
+  margin: 7px 0 0;
+  font-size: 0.78rem;
+  color: var(--texto-suave);
+  line-height: 1.35;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ── Video ────────────────────────────────────────────────────────────── */
+.video-marco {
+  max-width: 900px;
+  margin-inline: auto;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--r-lg);
+  background: var(--oscuro);
+  border: 1px solid var(--borde-oscuro);
+  display: grid;
+  place-items: center;
+  color: var(--texto-claro-suave);
+  text-align: center;
+  padding: 20px;
+  gap: 10px;
+}
+.video-marco .play {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background: var(--acento-degradado);
+  display: grid;
+  place-items: center;
+  margin-inline: auto;
+  margin-bottom: 12px;
+}
+
+/* ── Lista editorial (dolores y pilares) ──────────────────────────────── */
+.editorial {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.editorial > li {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+  padding-block: 22px;
+  border-top: 1px solid var(--borde);
+}
+.editorial > li:last-child {
+  border-bottom: 1px solid var(--borde);
+}
+@media (min-width: 768px) {
+  .editorial > li {
+    grid-template-columns: 56px minmax(0, 1fr);
+    column-gap: 26px;
+    align-items: start;
+  }
+  .editorial > li > .indice {
+    grid-row: span 2;
+  }
+}
+.indice {
+  font-family: var(--display);
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--borde);
+}
+.indice.mal {
+  color: var(--rojo);
+}
+.editorial p {
+  color: var(--texto-suave);
+  max-width: var(--texto-max);
+}
+
+/* ── Módulos ──────────────────────────────────────────────────────────
+ * Dos rejillas distintas a propósito:
+ *  .modulos--4  los cuatro de iniciación, en una sola fila en escritorio
+ *  .modulos--2  los de CapCut Club, a mitad y mitad
+ * En móvil las dos van a 2 columnas, como se pidió.
+ * ─────────────────────────────────────────────────────────────────── */
+/* minmax(0, 1fr) y no 1fr: el mínimo automático de una pista de rejilla
+   es el ancho de su contenido, y los titulares en versalitas con una
+   tipografía expandida ("PREPRODUCCIÓN", "CAPCUT PARA COMPUTADOR") son
+   palabras que no parten — con 1fr a secas ensanchaban la pista y con
+   ella toda la página en móvil. */
+.modulos {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (min-width: 1024px) {
+  .modulos--4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+.modulo {
+  border: 1px solid var(--borde);
+  border-radius: var(--r-md);
+  background: var(--fondo);
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition:
+    transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.2s ease,
+    box-shadow 0.22s ease;
+}
+@media (min-width: 768px) {
+  .modulo {
+    padding: 20px;
+  }
+}
+.modulo:hover {
+  transform: translateY(-3px);
+  border-color: var(--acento);
+  box-shadow: 0 0 0 1px rgba(var(--acento-rgb), 0.28), 0 14px 30px -18px rgba(20, 18, 16, 0.5);
+}
+.modulo .etq {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+/* En 2 columnas de móvil quedan ~137px de texto útil, y en versalitas
+   con la tipografía expandida "PREPRODUCCIÓN" no cabe entero. El orden
+   de defensa importa: primero se baja el cuerpo, después se guiona en
+   español de verdad (el <html lang="es"> es lo que lo habilita), y solo
+   si aun así no cabe se parte la palabra. Sin hyphens salía
+   "INTRODUCCIÓ / N", que es un corte que no existe. */
+.modulo h3 {
+  font-size: 0.86rem;
+  hyphens: auto;
+  overflow-wrap: break-word;
+}
+@media (min-width: 768px) {
+  .modulo h3 {
+    font-size: 1.02rem;
+  }
+}
+.modulo p {
+  font-size: 0.88rem;
+  color: var(--texto-suave);
+}
+.modulo--destacado {
+  border-color: var(--acento);
+  background: var(--acento-tenue);
+}
+.modulo--destacado .etq {
+  color: var(--acento-texto);
+}
+.grupo-titulo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.grupo-titulo .linea {
+  flex: 1;
+  height: 1px;
+  background: var(--borde);
+}
+.grupo-titulo > span:first-child {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
+/* ── Bio del mentor ───────────────────────────────────────────────────
+ * Estructura tomada de la VSL: foto con píldora encima, ojo + nombre
+ * como bloque aparte del párrafo, y las cifras de autoría cerrando
+ * abajo a todo el ancho. En móvil el orden es foto → título → cifras →
+ * texto; en escritorio foto a la izquierda y el resto a la derecha.
+ * ─────────────────────────────────────────────────────────────────── */
+.bio {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 22px;
+  align-items: start;
+}
+@media (min-width: 1024px) {
+  .bio {
+    grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+    column-gap: 44px;
+    row-gap: 26px;
+    align-items: center;
+  }
+  .bio__foto {
+    grid-row: span 2;
+  }
+  .bio__cifras {
+    grid-column: 1 / -1;
+  }
+}
+.bio__foto {
+  position: relative;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background: var(--elevada);
+}
+.bio__foto img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+.bio__pildora {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  right: 12px;
+  background: var(--acento-degradado);
+  color: var(--acento-tinta);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 8px 12px;
+  border-radius: var(--r-lg);
+  text-align: center;
+}
+.bio__texto {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.bio__nombre span {
+  color: var(--acento-texto);
+}
+
+/* ── Antes / después ──────────────────────────────────────────────────
+ * Centrado, con la flecha entre los dos clips. En móvil la flecha gira
+ * 90° porque los clips se apilan — una flecha a la derecha entre dos
+ * cosas que están una encima de otra no señala nada.
+ * ─────────────────────────────────────────────────────────────────── */
+.comparativa {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  align-items: center;
+  gap: 10px;
+  max-width: 760px;
+  margin-inline: auto;
+}
+@media (min-width: 768px) {
+  .comparativa {
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    gap: 18px;
+  }
+}
+.comparativa > div {
+  width: 100%;
+  max-width: 320px;
+  text-align: center;
+}
+.comparativa .flecha {
+  font-family: var(--emoji);
+  font-size: 2rem;
+  line-height: 1;
+  transform: rotate(90deg);
+}
+@media (min-width: 768px) {
+  .comparativa .flecha {
+    transform: none;
+  }
+}
+.clip {
+  aspect-ratio: 9 / 16;
+  max-height: 460px;
+  background: var(--elevada);
+  border: 1px solid var(--borde);
+  border-radius: var(--r-lg);
+  display: grid;
+  place-items: center;
+  color: var(--texto-suave);
+  font-size: 0.86rem;
+  text-align: center;
+  padding: 16px;
+}
+.etiqueta-clip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.etiqueta-clip.antes {
+  color: var(--rojo);
+}
+.etiqueta-clip.despues {
+  color: var(--verde);
+}
+
+/* ── Testimonios ──────────────────────────────────────────────────────
+ * Reproductor propio, portado tal cual del de la VSL: vista previa muda
+ * en bucle mientras la tarjeta está a la vista, y sonido real al pulsar.
+ * Móvil: carrusel con scroll-snap — cuatro verticales en columna serían
+ * media página de scroll. Escritorio: rejilla de 4.
+ * ─────────────────────────────────────────────────────────────────── */
+.testimonios {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 8px;
+  -webkit-overflow-scrolling: touch;
+}
+.testimonios > * {
+  flex: none;
+  width: 68%;
+  scroll-snap-align: center;
+}
+@media (min-width: 768px) {
+  .testimonios {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    overflow: visible;
+    padding-bottom: 0;
+  }
+  .testimonios > * {
+    width: auto;
+  }
+}
+@media (min-width: 1024px) {
+  .testimonios {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+.reproductor {
+  position: relative;
+  overflow: hidden;
+  background: #000;
+  border-radius: var(--r-lg);
+  aspect-ratio: 9 / 16;
+  cursor: pointer;
+}
+.reproductor__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.reproductor__boton {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 62px;
+  height: 62px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--acento-degradado);
+  color: var(--acento-tinta);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  z-index: 2;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s cubic-bezier(0.34, 1.4, 0.64, 1),
+    box-shadow 0.22s ease;
+}
+.reproductor:hover .reproductor__boton {
+  transform: scale(1.08);
+  box-shadow: 0 0 20px 4px rgba(var(--acento-rgb), 0.6);
+}
+.reproductor--reproduciendo .reproductor__boton {
+  opacity: 0;
+  pointer-events: none;
+}
+.reproductor--reproduciendo:hover .reproductor__boton {
+  opacity: 1;
+  pointer-events: auto;
+}
+.reproductor__pie {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 1;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.78), transparent);
+  padding-top: 26px;
+}
+.reproductor__barra {
+  height: 3px;
+  background: rgba(255, 255, 255, 0.28);
+}
+.reproductor__barra-relleno {
+  height: 100%;
+  width: 0;
+  background: var(--acento-claro);
+}
+.reproductor__nombre {
+  font-family: var(--display);
+  font-size: 0.82rem;
+  color: #fff;
+  padding: 8px 12px 10px;
+  text-transform: uppercase;
+}
+.testi-pie {
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+  line-height: 1.3;
+}
+.testi-pie b {
+  font-size: 0.9rem;
+}
+.testi-pie small {
+  font-size: 0.8rem;
+  color: var(--texto-suave);
+}
+.estrellas {
+  color: var(--acento-texto);
+  font-size: 0.86rem;
+  letter-spacing: 0.05em;
+}
+
+/* ── Bloque de precio (oscuro) ────────────────────────────────────────── */
+.oferta {
+  background: var(--oscuro);
+  color: var(--texto-claro);
+}
+.oferta h2 {
+  color: var(--texto-claro);
+}
+.oferta .lead {
+  color: var(--texto-claro-suave);
+}
+.oferta .cejilla {
+  color: var(--acento-claro);
+}
+.oferta-env {
+  max-width: 910px;
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+.tarjeta-precio {
+  background: var(--oscuro-2);
+  border: 1px solid var(--borde-oscuro);
+  border-radius: var(--r-lg);
+  padding: 26px 22px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 26px;
+  margin-top: 26px;
+}
+@media (min-width: 1024px) {
+  .tarjeta-precio {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 40px;
+    padding: 34px 32px;
+    align-items: center;
+  }
+}
+/* El mockup de la caja, justo encima del precio. */
+.mockup-precio {
+  width: 100%;
+  max-width: 230px;
+  margin-inline: auto;
+  filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.65));
+}
+.precio-linea {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.precio-linea .cifra {
+  font-family: var(--display);
+  font-size: clamp(3rem, 12vw, 4.6rem);
+  line-height: 0.85;
+  /* La tarjeta es oscura: aquí va la mitad clara de la rampa. */
+  background: var(--acento-degradado-claro);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: -0.02em;
+}
+.precio-linea .usd {
+  font-size: 1.05rem;
+  color: var(--texto-claro-suave);
+}
+.precio-linea s {
+  font-size: 1.1rem;
+  color: var(--texto-claro-suave);
+  text-decoration-thickness: 2px;
+}
+.incluye {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.incluye li {
+  display: flex;
+  gap: 11px;
+  align-items: flex-start;
+  padding-block: 9px;
+  border-bottom: 1px solid var(--borde-oscuro);
+  font-size: 0.94rem;
+}
+.incluye li:last-child {
+  border-bottom: 0;
+}
+.incluye svg {
+  flex: none;
+  margin-top: 3px;
+}
+
+/* ── Sellos de confianza ──────────────────────────────────────────────── */
+.sellos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--borde);
+  border: 1px solid var(--borde);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+@media (min-width: 1024px) {
+  .sellos {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+.sellos > div {
+  background: var(--fondo);
+  padding: 18px 16px;
+  text-align: center;
+}
+.sellos .emoji {
+  display: block;
+  font-size: 1.7rem;
+  margin-bottom: 8px;
+}
+.sellos b {
+  display: block;
+  font-size: 0.9rem;
+}
+.sellos small {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--texto-suave);
+  margin-top: 3px;
+  line-height: 1.35;
+}
+
+/* ── FAQ ──────────────────────────────────────────────────────────────
+ * Tres columnas en escritorio, una por grupo temático. Se reparte por
+ * GRUPO y no con `columns`, que parte las respuestas por la mitad en
+ * cuanto se abre un <details>.
+ * ─────────────────────────────────────────────────────────────────── */
+.faq-rejilla {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px 30px;
+  align-items: start;
+}
+@media (min-width: 768px) {
+  .faq-rejilla {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  .faq-rejilla {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.faq details {
+  border-top: 1px solid var(--borde);
+}
+.faq details:last-of-type {
+  border-bottom: 1px solid var(--borde);
+}
+.faq summary {
+  cursor: pointer;
+  list-style: none;
+  padding-block: 15px;
+  font-weight: 700;
+  font-size: 0.94rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: center;
+}
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+.faq summary::after {
+  content: "+";
+  font-family: var(--display);
+  color: var(--acento-texto);
+  font-size: 1.3rem;
+  line-height: 1;
+  flex: none;
+}
+.faq details[open] summary::after {
+  content: "–";
+}
+.faq details p {
+  padding-bottom: 16px;
+  color: var(--texto-suave);
+  font-size: 0.92rem;
+  max-width: var(--texto-max);
+}
+.faq .grupo {
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--acento-texto);
+  margin-top: 26px;
+  margin-bottom: 4px;
+}
+@media (min-width: 768px) {
+  .faq .grupo {
+    margin-top: 0;
+  }
+}
+
+/* ── Cierre y pie ─────────────────────────────────────────────────────── */
+.cierre {
+  background: var(--superficie);
+  text-align: center;
+}
+footer {
+  background: var(--oscuro);
+  color: var(--texto-claro-suave);
+  padding-block: calc(var(--seccion-y) * 1.25);
+}
+footer h3 {
+  color: var(--texto-claro);
+}
+footer a {
+  color: var(--texto-claro);
+}
+.pie-rejilla {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 26px;
+}
+@media (min-width: 768px) {
+  .pie-rejilla {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+/* Los enlaces legales llevan alto propio: como texto suelto medían 22px
+   y quedaban por debajo del mínimo táctil de 44. El margen negativo
+   compensa el relleno para que la fila no crezca visualmente. */
+.legales {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 4px;
+  margin-inline: -10px;
+  font-size: 0.84rem;
+}
+.legales a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: 10px;
+}
+.pie-nota {
+  border-top: 1px solid var(--borde-oscuro);
+  margin-top: 26px;
+  padding-top: 18px;
+  font-size: 0.8rem;
+}
+.wa {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--borde-oscuro);
+  border-radius: var(--r-lg);
+  padding: 13px 20px;
+  text-decoration: none;
+  color: var(--texto-claro);
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease;
+}
+.wa:hover {
+  background: var(--oscuro-2);
+  border-color: var(--acento-claro);
+}
+
+/* ── Aparición al entrar en pantalla ──────────────────────────────────── */
+[data-revelar] {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.55s ease,
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+[data-revelar].visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Menos movimiento ─────────────────────────────────────────────────
+ * Se apaga todo lo que se mueve solo: cinta, titileo, salto, latido y
+ * las apariciones. Lo que responde a un gesto (hover) se conserva —
+ * eso lo pide el usuario, no ocurre sin permiso.
+ * ─────────────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .banda .pista,
+  .btn--neon,
+  .btn--vivo,
+  .cupos .punto {
+    animation: none !important;
+  }
+  .banda .pista {
+    transform: none;
+  }
+  [data-revelar] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .barra-fija {
+    transition: none;
+  }
+}
