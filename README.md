@@ -3,7 +3,9 @@
 Landing de venta del CapCut Club. Sitio estático, sin build: se sirve tal cual.
 
 - **Producción:** https://capcutclub.planediciontotal.com
-- **Vista previa:** https://davidprietooficial-ux.github.io/capcut-club-preview/
+- **Repo:** https://github.com/davidprietooficial-ux/capcut-club-landing
+- El boceto anterior, de un solo archivo, sigue archivado en
+  `capcut-club-preview` — este repo no lo sustituye.
 
 ## Estructura
 
@@ -38,6 +40,9 @@ puntos de corte.
 ## Pendiente
 
 - Video de presentación (bloque marcador de posición en la sección 03).
-- Clips reales de «antes y después».
+- Clips reales de «antes y después» (los marcos ya están a tamaño final:
+  380×676 en escritorio).
+- Contenido del módulo 5, CapCut para celular — es el único marcado
+  «Próximamente». El de computador ya existe.
 - Páginas legales: los tres enlaces del pie apuntan a `#`.
 - Quitar `noindex` de `index.html` y el `Disallow` de `robots.txt` al aprobar.

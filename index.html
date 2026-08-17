@@ -50,12 +50,11 @@
       aria-label="Soporte por WhatsApp"
     >
       <span class="rotulo">Soporte por WhatsApp</span>
-      <svg width="27" height="27" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <!-- Marca oficial de WhatsApp (trazado del glifo de marca, no un
+           dibujo aproximado). Se usa solo para enlazar al chat. -->
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path
-          d="M8 0a8 8 0 00-6.9 12L0 16l4.1-1.1A8 8 0 108 0zm0 14.6a6.6 6.6 0 01-3.4-.9l-.2-.1-2.5.6.7-2.4-.2-.3A6.6 6.6 0 118 14.6z"
-        />
-        <path
-          d="M11.6 9.6c-.2-.1-1.2-.6-1.3-.6-.2-.1-.3-.1-.4.1l-.6.7c-.1.1-.2.1-.4 0a5.4 5.4 0 01-2.6-2.3c-.2-.3.2-.3.5-1 0-.1 0-.2-.1-.3L6 5.1c-.1-.3-.3-.3-.4-.3h-.4c-.1 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2.9 2.4c.1.1 1.6 2.6 4 3.5 1.6.6 2.2.7 2.9.6.5-.1 1.2-.5 1.4-1 .2-.5.2-1 .1-1.1 0-.1-.2-.2-.4-.3z"
+          d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"
         />
       </svg>
     </a>
@@ -80,11 +79,6 @@
               de tener “buen ojo”.
             </p>
 
-            <p class="cupos" data-cupos-config data-cupos-inicial="100" data-cupos-piso="7">
-              <span class="punto" aria-hidden="true"></span>
-              Quedan <span data-cupos>100</span> cupos disponibles
-            </p>
-
             <div style="display: flex; flex-wrap: wrap; gap: 12px; padding-top: 4px">
               <a class="btn btn--vivo" href="#oferta">Entrar al CapCut Club — 23 USD</a>
               <a class="btn btn--fantasma" href="#modulos">Ver el temario</a>
@@ -96,15 +90,23 @@
             </div>
           </div>
 
-          <div class="hero-banner">
-            <img
-              src="activos/hero-capcut-club.webp"
-              width="900"
-              height="866"
-              alt="Juan Camilo señalando el logo de CapCut, imagen del CapCut Club edición 2026"
-              fetchpriority="high"
-              decoding="async"
-            />
+          <!-- El contador va justo encima del banner, no en la columna de
+               texto: es lo primero que se ve al mirar la imagen. -->
+          <div class="hero-lateral">
+            <p class="cupos" data-cupos-config data-cupos-inicial="100" data-cupos-piso="7">
+              <span class="punto" aria-hidden="true"></span>
+              Quedan <span data-cupos>100</span> cupos disponibles
+            </p>
+            <div class="hero-banner">
+              <img
+                src="activos/hero-capcut-club.webp"
+                width="900"
+                height="866"
+                alt="Juan Camilo señalando el logo de CapCut, imagen del CapCut Club edición 2026"
+                fetchpriority="high"
+                decoding="async"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -289,7 +291,7 @@
             </article>
             <article class="modulo modulo--destacado">
               <span class="etq">Módulo 6</span>
-              <h3>CapCut para computador <span class="proximamente">Próximamente</span></h3>
+              <h3>CapCut para computador</h3>
               <p>La versión de escritorio a fondo: proyecto, línea de tiempo, color, exportación.</p>
             </article>
           </div>
@@ -334,26 +336,28 @@
               ni una vez — y cuando lo abres, ya sabes qué estás buscando.
             </p>
             <p class="micro">Nos vemos adentro.</p>
-          </div>
 
-          <dl class="cifras bio__cifras" data-revelar>
-            <div>
-              <dt>+2 Millones</dt>
-              <dd>De dólares<br />en revenue</dd>
-            </div>
-            <div>
-              <dt>+15</dt>
-              <dd>Industrias<br />diferentes</dd>
-            </div>
-            <div>
-              <dt>+1.000</dt>
-              <dd>Videos<br />editados</dd>
-            </div>
-            <div>
-              <dt>+50</dt>
-              <dd>Alumnos<br />1 a 1</dd>
-            </div>
-          </dl>
+            <!-- Las cifras de autoría cierran la columna de texto, debajo
+                 del párrafo — no cruzando por debajo de la foto. -->
+            <dl class="cifras bio__cifras">
+              <div>
+                <dt>+2 Millones</dt>
+                <dd>De dólares<br />en revenue</dd>
+              </div>
+              <div>
+                <dt>+15</dt>
+                <dd>Industrias<br />diferentes</dd>
+              </div>
+              <div>
+                <dt>+1.000</dt>
+                <dd>Videos<br />editados</dd>
+              </div>
+              <div>
+                <dt>+50</dt>
+                <dd>Alumnos<br />1 a 1</dd>
+              </div>
+            </dl>
+          </div>
         </div>
       </div>
     </section>
@@ -603,7 +607,8 @@
           <h2>Todo el programa, un solo pago</h2>
         </div>
         <div class="tarjeta-precio" data-revelar>
-          <div class="pila">
+          <!-- Toda esta columna va centrada respecto al botón. -->
+          <div class="precio-col">
             <!-- El mockup de la caja va justo encima del precio. -->
             <img
               class="mockup-precio"
@@ -614,14 +619,12 @@
               loading="lazy"
               decoding="async"
             />
-            <div class="precio-linea">
+            <p class="precio-linea">
               <span class="cifra">23</span>
               <span class="usd">USD</span>
-              <s>antes 67 USD</s>
-            </div>
-            <p style="color: var(--texto-claro-suave); font-size: 0.94rem">
-              Pago único. Acceso por 12 meses renovable.
             </p>
+            <p class="precio-antes"><s>antes 67 USD</s></p>
+            <p class="precio-nota">Pago único. Acceso por 12 meses renovable.</p>
             <a
               class="btn btn--ancho btn--vivo"
               href="https://pay.hotmart.com/M107158341L?off=oynghv9l&amp;checkoutMode=10&amp;bid=1786761312497"
@@ -629,13 +632,11 @@
               rel="noopener noreferrer"
               >Comprar ahora — 23 USD</a
             >
-            <p class="cupos" style="align-self: center">
+            <p class="cupos">
               <span class="punto" aria-hidden="true"></span>
               Quedan <span data-cupos>100</span> cupos disponibles
             </p>
-            <p class="micro" style="color: var(--texto-claro-suave); text-align: center">
-              Pago seguro por Hotmart · Visa · Mastercard · PayPal
-            </p>
+            <p class="micro precio-nota">Pago seguro por Hotmart · Visa · Mastercard · PayPal</p>
           </div>
           <ul class="incluye">
             <li>
@@ -654,7 +655,7 @@
               <svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true">
                 <path d="M2 8.5l4 4 8-9" fill="none" stroke="#4ADE80" stroke-width="2.4" stroke-linecap="square" />
               </svg>
-              <span>Los módulos de CapCut Club aplicado en cuanto se publiquen (próximamente)</span>
+              <span>El módulo de CapCut para celular en cuanto se publique (próximamente)</span>
             </li>
             <li>
               <svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true">
@@ -676,12 +677,10 @@
             </li>
           </ul>
         </div>
-      </div>
-    </section>
 
-    <!-- ══ 12 · Sellos ══════════════════════════════════════════════════ -->
-    <section>
-      <div class="env">
+        <!-- Los sellos de confianza viven DENTRO de la sección de la
+             oferta: cierran el argumento de compra en el mismo bloque, no
+             en una sección intermedia aparte. -->
         <div class="sellos" data-revelar>
           <div>
             <span class="emoji" role="img" aria-hidden="true">💳</span>
@@ -703,7 +702,7 @@
       </div>
     </section>
 
-    <!-- ══ 13 · Preguntas frecuentes ════════════════════════════════════
+    <!-- ══ 12 · Preguntas frecuentes ════════════════════════════════════
          Tres columnas en escritorio, una por grupo temático. -->
     <section class="crema">
       <div class="env faq">
@@ -783,7 +782,7 @@
       </div>
     </section>
 
-    <!-- ══ 14 · Cierre ══════════════════════════════════════════════════ -->
+    <!-- ══ 13 · Cierre ══════════════════════════════════════════════════ -->
     <section class="cierre">
       <div class="env pila">
         <h2 data-revelar>23 USD hoy, o seguir improvisando cada edición</h2>
@@ -795,7 +794,7 @@
       </div>
     </section>
 
-    <!-- ══ 15 · Cinta, otra vez, justo antes del pie ════════════════════ -->
+    <!-- ══ 14 · Cinta, otra vez, justo antes del pie ════════════════════ -->
     <div class="banda">
       <div class="pista">
         <div class="juego">
@@ -817,7 +816,7 @@
       </div>
     </div>
 
-    <!-- ══ 16 · Pie ═════════════════════════════════════════════════════ -->
+    <!-- ══ 15 · Pie ═════════════════════════════════════════════════════ -->
     <footer>
       <div class="env">
         <div class="pie-rejilla">
@@ -826,12 +825,9 @@
             <p style="font-size: 0.92rem">Escríbenos por WhatsApp y te respondemos.</p>
             <div style="padding-top: 6px">
               <a class="wa" href="https://wa.me/573237158237" target="_blank" rel="noopener noreferrer">
-                <svg width="17" height="17" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path
-                    d="M8 0a8 8 0 00-6.9 12L0 16l4.1-1.1A8 8 0 108 0zm0 14.6a6.6 6.6 0 01-3.4-.9l-.2-.1-2.5.6.7-2.4-.2-.3A6.6 6.6 0 118 14.6z"
-                  />
-                  <path
-                    d="M11.6 9.6c-.2-.1-1.2-.6-1.3-.6-.2-.1-.3-.1-.4.1l-.6.7c-.1.1-.2.1-.4 0a5.4 5.4 0 01-2.6-2.3c-.2-.3.2-.3.5-1 0-.1 0-.2-.1-.3L6 5.1c-.1-.3-.3-.3-.4-.3h-.4c-.1 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2.9 2.4c.1.1 1.6 2.6 4 3.5 1.6.6 2.2.7 2.9.6.5-.1 1.2-.5 1.4-1 .2-.5.2-1 .1-1.1 0-.1-.2-.2-.4-.3z"
+                    d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"
                   />
                 </svg>
                 +57 323 715 8237

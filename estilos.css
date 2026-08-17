@@ -572,9 +572,21 @@ body.con-barra .wa-flotante {
   color: var(--acento-texto);
 }
 
+/* Columna del banner: el contador de cupos encima de la imagen. */
+.hero-lateral {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.hero-lateral .cupos {
+  align-self: center;
+}
+
 /* Banner del hero: el recorte de Juan con el logo de CapCut. Va sin
    marco ni fondo — es un PNG con alfa, el resplandor lo pone el CSS. */
 .hero-banner {
+  width: 100%;
   position: relative;
   display: grid;
   place-items: center;
@@ -697,6 +709,11 @@ body.con-barra .wa-flotante {
 
 /* ── Video ────────────────────────────────────────────────────────────── */
 .video-marco {
+  /* width:100% es obligatorio, no decorativo: el padre es un flex en
+     columna y `margin-inline:auto` a los dos lados desactiva el estirado,
+     así que sin esto el marco se encogía a su contenido en vez de ocupar
+     los 900px. Mismo caso en .comparativa. */
+  width: 100%;
   max-width: 900px;
   margin-inline: auto;
   aspect-ratio: 16 / 9;
@@ -860,9 +877,10 @@ body.con-barra .wa-flotante {
 
 /* ── Bio del mentor ───────────────────────────────────────────────────
  * Estructura tomada de la VSL: foto con píldora encima, ojo + nombre
- * como bloque aparte del párrafo, y las cifras de autoría cerrando
- * abajo a todo el ancho. En móvil el orden es foto → título → cifras →
- * texto; en escritorio foto a la izquierda y el resto a la derecha.
+ * como bloque aparte del párrafo, y las cifras de autoría cerrando la
+ * columna de texto — debajo del párrafo, no cruzando por debajo de la
+ * foto. Móvil: apilado. Escritorio: foto a la izquierda, todo lo demás
+ * a la derecha.
  * ─────────────────────────────────────────────────────────────────── */
 .bio {
   display: grid;
@@ -877,12 +895,11 @@ body.con-barra .wa-flotante {
     row-gap: 26px;
     align-items: center;
   }
-  .bio__foto {
-    grid-row: span 2;
-  }
-  .bio__cifras {
-    grid-column: 1 / -1;
-  }
+}
+/* Las cifras van dentro de la columna de texto: en la columna estrecha
+   caben dos por fila hasta escritorio, donde ya entran las cuatro. */
+.bio__cifras {
+  margin-top: 6px;
 }
 .bio__foto {
   position: relative;
@@ -929,35 +946,47 @@ body.con-barra .wa-flotante {
   grid-template-columns: 1fr;
   justify-items: center;
   align-items: center;
-  gap: 10px;
-  max-width: 760px;
+  gap: 12px;
+  /* Ver la nota de .video-marco: sin width:100% el margin-inline:auto
+     dentro del flex en columna deja la rejilla en su ancho de contenido. */
+  width: 100%;
+  max-width: 1000px;
   margin-inline: auto;
 }
 @media (min-width: 768px) {
   .comparativa {
     grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-    gap: 18px;
+    gap: 24px;
   }
 }
 .comparativa > div {
   width: 100%;
-  max-width: 320px;
+  max-width: 300px;
   text-align: center;
+}
+@media (min-width: 768px) {
+  .comparativa > div {
+    /* 380 y no más: a 9/16 da 676px de alto, que cabe bajo el max-height
+       de 700 del clip. Más ancho y el max-height recortaría la altura,
+       rompiendo la proporción vertical del video. */
+    max-width: 380px;
+  }
 }
 .comparativa .flecha {
   font-family: var(--emoji);
-  font-size: 2rem;
+  font-size: 2.4rem;
   line-height: 1;
   transform: rotate(90deg);
 }
 @media (min-width: 768px) {
   .comparativa .flecha {
+    font-size: 3rem;
     transform: none;
   }
 }
 .clip {
   aspect-ratio: 9 / 16;
-  max-height: 460px;
+  max-height: 700px;
   background: var(--elevada);
   border: 1px solid var(--borde);
   border-radius: var(--r-lg);
@@ -972,11 +1001,16 @@ body.con-barra .wa-flotante {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  font-size: 0.76rem;
+  font-size: 0.86rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+}
+@media (min-width: 768px) {
+  .etiqueta-clip {
+    font-size: 1rem;
+  }
 }
 .etiqueta-clip.antes {
   color: var(--rojo);
@@ -1145,18 +1179,48 @@ body.con-barra .wa-flotante {
     align-items: center;
   }
 }
+/* Columna del precio: mockup, precio, antes, nota, botón, cupos y aviso
+   de pago, todo alineado al centro respecto al botón. */
+.precio-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+}
+.precio-col .btn {
+  width: 100%;
+}
+.precio-col .cupos {
+  align-self: center;
+}
+
 /* El mockup de la caja, justo encima del precio. */
 .mockup-precio {
   width: 100%;
-  max-width: 230px;
-  margin-inline: auto;
+  max-width: 186px;
   filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.65));
 }
 .precio-linea {
   display: flex;
   align-items: baseline;
-  gap: 12px;
+  justify-content: center;
+  gap: 10px;
   flex-wrap: wrap;
+}
+/* «antes 67 USD» en su propia línea, debajo del precio. El margen
+   negativo recupera el hueco que deja el interlineado del display. */
+.precio-antes {
+  margin-top: -8px;
+}
+.precio-antes s {
+  font-size: 1.1rem;
+  color: var(--texto-claro-suave);
+  text-decoration-thickness: 2px;
+}
+.precio-nota {
+  color: var(--texto-claro-suave);
+  font-size: 0.94rem;
 }
 .precio-linea .cifra {
   font-family: var(--display);
@@ -1172,11 +1236,6 @@ body.con-barra .wa-flotante {
 .precio-linea .usd {
   font-size: 1.05rem;
   color: var(--texto-claro-suave);
-}
-.precio-linea s {
-  font-size: 1.1rem;
-  color: var(--texto-claro-suave);
-  text-decoration-thickness: 2px;
 }
 .incluye {
   list-style: none;
@@ -1220,6 +1279,23 @@ body.con-barra .wa-flotante {
   background: var(--fondo);
   padding: 18px 16px;
   text-align: center;
+}
+/* Los sellos viven dentro de la sección oscura de la oferta: mismas
+   piezas, tema invertido, para que no aparezca una franja blanca en
+   medio del bloque de precio. */
+.oferta .sellos {
+  margin-top: 22px;
+  background: var(--borde-oscuro);
+  border-color: var(--borde-oscuro);
+}
+.oferta .sellos > div {
+  background: var(--oscuro-2);
+}
+.oferta .sellos b {
+  color: var(--texto-claro);
+}
+.oferta .sellos small {
+  color: var(--texto-claro-suave);
 }
 .sellos .emoji {
   display: block;
@@ -1312,8 +1388,10 @@ body.con-barra .wa-flotante {
 }
 
 /* ── Cierre y pie ─────────────────────────────────────────────────────── */
+/* Sección propia, sobre blanco: separa el cierre de la oferta oscura y
+   de la crema de las preguntas. */
 .cierre {
-  background: var(--superficie);
+  background: var(--fondo);
   text-align: center;
 }
 footer {
