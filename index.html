@@ -25,7 +25,14 @@
       type="font/woff2"
       crossorigin
     />
-    <link rel="stylesheet" href="estilos.css" />
+    <!-- El ?v= no es decorativo. El servidor manda estilos.css y app.js con
+         cache-control de 7 dias, pero index.html se revalida siempre: sin
+         versionar, un visitante que ya paso por aqui se queda con el HTML
+         nuevo y el CSS y el JS viejos, y la pagina se rompe de formas raras.
+         El valor son los primeros 8 caracteres del sha256 del archivo: si el
+         archivo cambia, la URL cambia sola. HAY QUE REGENERARLO EN CADA
+         DESPLIEGUE. -->
+    <link rel="stylesheet" href="estilos.css?v=d07440b2" />
   </head>
   <body>
     <!-- ══ Barra fija de compra — aparece al salir del hero ═════════════
@@ -1100,6 +1107,6 @@
       </div>
     </div>
 
-    <script src="app.js" defer></script>
+    <script src="app.js?v=da384d3b" defer></script>
   </body>
 </html>
