@@ -1052,10 +1052,21 @@
       <div class="cookies__caja">
         <div class="cookies__texto">
           <h2 id="cookies-titulo">Cookies</h2>
+          <!-- Dos textos porque son dos situaciones distintas, y decir el que
+               no toca es mentir: en la UE se pregunta ANTES y no hay nada
+               cargado todavía; fuera, la medición ya arrancó y lo honesto es
+               decirlo y ofrecer apagarla. -->
           <p id="cookies-texto">
-            Las nuestras hacen que la página funcione y van siempre. Las de terceros miden
-            cómo se usa el sitio y el rendimiento de nuestros anuncios — esas solo si nos
-            dejas. Puedes cambiar de idea cuando quieras desde el pie de página.
+            <span data-cookies-previo>
+              Las nuestras hacen que la página funcione y van siempre. Las de terceros miden
+              cómo se usa el sitio y el rendimiento de nuestros anuncios — esas solo si nos
+              dejas. Puedes cambiar de idea cuando quieras desde el pie de página.
+            </span>
+            <span data-cookies-aviso hidden>
+              Usamos cookies propias para que la página funcione y de terceros para medir cómo
+              se usa el sitio y el rendimiento de nuestros anuncios. Puedes desactivarlas ahora
+              o cuando quieras desde el pie de página.
+            </span>
           </p>
         </div>
 
@@ -1087,10 +1098,12 @@
 
         <div class="cookies__botones">
           <button type="button" class="cookies__btn cookies__btn--si" data-cookies-aceptar>
-            Aceptar todo
+            <span data-cookies-previo>Aceptar todo</span>
+            <span data-cookies-aviso hidden>Entendido</span>
           </button>
           <button type="button" class="cookies__btn" data-cookies-rechazar>
-            Solo las necesarias
+            <span data-cookies-previo>Solo las necesarias</span>
+            <span data-cookies-aviso hidden>Desactivar</span>
           </button>
           <button type="button" class="cookies__btn cookies__btn--plano" data-cookies-configurar>
             Configurar
@@ -1107,6 +1120,6 @@
       </div>
     </div>
 
-    <script src="app.js?v=da384d3b" defer></script>
+    <script src="app.js?v=baafea39" defer></script>
   </body>
 </html>

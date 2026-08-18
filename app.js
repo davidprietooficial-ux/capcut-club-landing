@@ -523,6 +523,26 @@
     else setTimeout(fn, 200);
   }
 
+  // Donde el consentimiento tiene que ser PREVIO y explicito (UE, EEE y
+  // Reino Unido) no se carga nada hasta que el visitante responda. Fuera
+  // de ahi la medicion arranca con la pagina y se avisa, con la opcion de
+  // apagarla en el mismo sitio.
+  //
+  // Se mira la zona horaria del navegador: no cuesta una peticion de red
+  // —que es justo lo que no se puede hacer antes de tener permiso—, no
+  // identifica a nadie y funciona en modo privado. No es infalible: una
+  // VPN o alguien de viaje se cuela por cualquiera de los dos lados. Por
+  // eso el patron es ancho a proposito (Europe/* entera, no solo la UE) y
+  // si Intl falla se asume lo estricto.
+  function enRegionEstricta() {
+    try {
+      var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+      return /^Europe\//.test(tz) || /^Atlantic\/(Canary|Madeira|Azores|Faroe|Reykjavik)/.test(tz);
+    } catch (e) {
+      return true;
+    }
+  }
+
   function alConsentir(categoria, nombre, fn) {
     cola.push({ categoria: categoria, nombre: nombre, fn: fn, hecho: false });
     liberarCola();
@@ -606,7 +626,14 @@
   }
 
   function iniciarConsentimiento() {
-    permisos = leerPermisos();
+    var decidido = leerPermisos();
+    var estricta = enRegionEstricta();
+
+    // Fuera de region estricta el arranque es permitido por defecto: la
+    // medicion empieza con la pagina, no despues de un clic. Dentro no se
+    // asume nada — permisos se queda en null y la cola no libera nada.
+    permisos = decidido || (estricta ? null : { analitica: true, marketing: true });
+
     registrarTerceros();
 
     var caja = document.querySelector("[data-consentimiento]");
@@ -619,6 +646,18 @@
     var btnGuardar = caja.querySelector("[data-cookies-guardar]");
     var btnAceptar = caja.querySelector("[data-cookies-aceptar]");
     var btnRechazar = caja.querySelector("[data-cookies-rechazar]");
+
+    // El banner dice una cosa u otra segun el modo. Se conmutan los dos
+    // juegos de textos en vez de reescribirlos por JS: asi el HTML sigue
+    // siendo la fuente del copy y se puede corregir sin tocar el script.
+    var modo = function (aviso) {
+      Array.prototype.forEach.call(caja.querySelectorAll("[data-cookies-previo]"), function (el) {
+        el.hidden = aviso;
+      });
+      Array.prototype.forEach.call(caja.querySelectorAll("[data-cookies-aviso]"), function (el) {
+        el.hidden = !aviso;
+      });
+    };
 
     var abrir = function (conPanel, conFoco) {
       // Las casillas reflejan lo ya decidido: reabrir las preferencias y
@@ -653,7 +692,13 @@
     }
     if (btnRechazar) {
       btnRechazar.addEventListener("click", function () {
+        var yaCorriendo = !decidido && !estricta;
         decidir({ analitica: false, marketing: false });
+        // Si la medicion ya habia arrancado, guardar la preferencia solo
+        // evita la proxima carga: Clarity sigue grabando esta sesion y fbq
+        // sigue en memoria. Un script de tercero no se descarga, asi que la
+        // unica forma honesta de apagarlo de verdad es recargar.
+        if (yaCorriendo) location.reload();
       });
     }
     if (btnConfigurar) {
@@ -679,9 +724,14 @@
       });
     }
 
-    // Solo se pregunta si no hay respuesta previa. Si ya la hay, los
-    // terceros permitidos ya salieron por liberarCola() en alConsentir.
-    if (!permisos) abrir(false, false);
+    // El banner sale solo si nunca ha respondido. Si ya respondio, los
+    // terceros permitidos salieron por liberarCola() en alConsentir.
+    if (!decidido) {
+      modo(!estricta);
+      abrir(false, false);
+    } else {
+      modo(!estricta);
+    }
   }
 
   function iniciar() {
