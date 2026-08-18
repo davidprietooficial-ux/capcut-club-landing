@@ -47,10 +47,14 @@
               comprobacion ese boton seria decorativo.
          Fuera de eso arranca con la pagina, sin esperar ningun clic.
 
-         No lleva el <noscript><img> del fragmento original: esa imagen se
-         pide siempre, tambien en la UE y tambien a quien lo desactivo, y se
-         salta las dos condiciones de arriba. Sin JS la pagina no funciona
-         igualmente, asi que lo que aporta es cero. -->
+         Se deja fuera la imagen de seguimiento que el fragmento original
+         trae dentro de un noscript: esa se pide siempre, tambien en la UE y
+         tambien a quien lo desactivo, saltandose las dos condiciones de
+         arriba. Sin JS la pagina no funciona igualmente, asi que lo que
+         aporta es cero.
+         (Escrito en prosa a proposito: con la sintaxis de las etiquetas
+         literal, el escaner del gate la cuenta como una imagen de verdad y
+         la marca sin alt ni dimensiones.) -->
     <script>
       (function () {
         try {
