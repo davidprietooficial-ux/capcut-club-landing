@@ -32,65 +32,50 @@
          El valor son los primeros 8 caracteres del sha256 del archivo: si el
          archivo cambia, la URL cambia sola. HAY QUE REGENERARLO EN CADA
          DESPLIEGUE. -->
-    <link rel="stylesheet" href="estilos.css?v=d07440b2" />
+    <link rel="stylesheet" href="estilos.css?v=96e2bc91" />
 
-    <!-- ══ Meta Pixel ═══════════════════════════════════════════════════
-         Va aqui arriba y no en app.js a proposito: cargado tarde y por JS
-         el PageView llega con retraso y las herramientas de Meta pueden no
-         verlo. Aqui se pide mientras el navegador todavia esta leyendo el
-         head, que es lo antes que se puede.
-
-         Se salta en dos casos, y los dos se resuelven sin ninguna peticion
-         de red — leyendo la zona horaria y localStorage, que son sincronos:
-           1. Union Europea, EEE y Reino Unido sin permiso previo.
-           2. Quien pulso "Desactivar" en el aviso de cookies. Sin esta
-              comprobacion ese boton seria decorativo.
-         Fuera de eso arranca con la pagina, sin esperar ningun clic.
-
-         Se deja fuera la imagen de seguimiento que el fragmento original
-         trae dentro de un noscript: esa se pide siempre, tambien en la UE y
-         tambien a quien lo desactivo, saltandose las dos condiciones de
-         arriba. Sin JS la pagina no funciona igualmente, asi que lo que
-         aporta es cero.
-         (Escrito en prosa a proposito: con la sintaxis de las etiquetas
-         literal, el escaner del gate la cuenta como una imagen de verdad y
-         la marca sin alt ni dimensiones.) -->
+    <!-- ══ Medicion ═════════════════════════════════════════════════════
+         Pixel de Meta y Microsoft Clarity, sin condiciones y lo antes
+         posible: se piden mientras el navegador todavía lee el head.
+         Decisión del cliente (18/08/2026): la medición no espera al
+         consentimiento. El muro de entrada que hay más abajo es lo que
+         recoge la aceptación, pero no gobierna estos dos scripts. -->
     <script>
-      (function () {
-        try {
-          var guardado = localStorage.getItem("capcut-club:consentimiento");
-          var permiso = guardado ? JSON.parse(guardado) : null;
-          if (permiso) {
-            if (!permiso.marketing) return;
-          } else {
-            var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
-            if (/^Europe\//.test(tz) || /^Atlantic\/(Canary|Madeira|Azores|Faroe|Reykjavik)/.test(tz)) return;
-          }
-        } catch (e) {
-          // Sin Intl ni localStorage no se puede decidir: no se carga.
-          return;
-        }
+      // Fragmento oficial de Meta, sin tocar.
+      !(function (f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function () {
+          n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+        };
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = "2.0";
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s);
+      })(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
+      fbq("init", "1555727432954581");
+      fbq("track", "PageView");
+    </script>
 
-        // Fragmento oficial de Meta, sin tocar.
-        !(function (f, b, e, v, n, t, s) {
-          if (f.fbq) return;
-          n = f.fbq = function () {
-            n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+    <script>
+      // Fragmento oficial de Microsoft Clarity, sin tocar.
+      (function (c, l, a, r, i, t, y) {
+        c[a] =
+          c[a] ||
+          function () {
+            (c[a].q = c[a].q || []).push(arguments);
           };
-          if (!f._fbq) f._fbq = n;
-          n.push = n;
-          n.loaded = !0;
-          n.version = "2.0";
-          n.queue = [];
-          t = b.createElement(e);
-          t.async = !0;
-          t.src = v;
-          s = b.getElementsByTagName(e)[0];
-          s.parentNode.insertBefore(t, s);
-        })(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
-        fbq("init", "1555727432954581");
-        fbq("track", "PageView");
-      })();
+        t = l.createElement(r);
+        t.async = 1;
+        t.src = "https://www.clarity.ms/tag/" + i;
+        y = l.getElementsByTagName(r)[0];
+        y.parentNode.insertBefore(t, y);
+      })(window, document, "clarity", "script", "y46j54itlv");
     </script>
   </head>
   <body>
@@ -1073,12 +1058,6 @@
               <a href="#">Aviso legal</a>
               <a href="#">Términos y condiciones</a>
               <a href="#">Política de privacidad</a>
-              <!-- Retirar el consentimiento tiene que ser tan fácil como
-                   darlo. Nace oculto: sin JS no hay tracking que revocar,
-                   así que un enlace muerto sería peor que ninguno. -->
-              <button type="button" class="legales__boton" data-cookies-reabrir hidden>
-                Preferencias de cookies
-              </button>
             </div>
             <p style="font-size: 0.84rem; padding-top: 6px">
               Mirai Group Co S.A.S. — Todos los derechos reservados 2026
@@ -1092,93 +1071,52 @@
       </div>
     </footer>
 
-    <!-- ══ Consentimiento ══════════════════════════════════════════════
-         Ni una petición de red a un tercero antes de que esto se responda.
-         El píxel de Meta y Clarity no están en el HTML: viven en app.js
-         dentro de alConsentir(), y solo se piden si la categoría tiene
-         permiso. No hay <noscript> con el píxel de imagen a propósito —
-         eso dispararía sin poder preguntar nada.
-         Nace con hidden y lo destapa app.js solo si no hay decisión
-         guardada. -->
+    <!-- ══ Muro de entrada ═════════════════════════════════════════════
+         Sin aceptar no se entra. Nace con hidden y lo destapa app.js solo
+         si no hay aceptación guardada; sin JS no se muestra, porque un
+         muro que no se puede cerrar dejaría la página inutilizable. -->
     <div
-      class="cookies"
-      data-consentimiento
+      class="muro"
+      data-muro
       hidden
       role="dialog"
-      aria-labelledby="cookies-titulo"
-      aria-describedby="cookies-texto"
+      aria-modal="true"
+      aria-labelledby="muro-titulo"
+      aria-describedby="muro-texto"
     >
-      <div class="cookies__caja">
-        <div class="cookies__texto">
-          <h2 id="cookies-titulo">Cookies</h2>
-          <!-- Dos textos porque son dos situaciones distintas, y decir el que
-               no toca es mentir: en la UE se pregunta ANTES y no hay nada
-               cargado todavía; fuera, la medición ya arrancó y lo honesto es
-               decirlo y ofrecer apagarla. -->
-          <p id="cookies-texto">
-            <span data-cookies-previo>
-              Las nuestras hacen que la página funcione y van siempre. Las de terceros miden
-              cómo se usa el sitio y el rendimiento de nuestros anuncios — esas solo si nos
-              dejas. Puedes cambiar de idea cuando quieras desde el pie de página.
-            </span>
-            <span data-cookies-aviso hidden>
-              Usamos cookies propias para que la página funcione y de terceros para medir cómo
-              se usa el sitio y el rendimiento de nuestros anuncios. Puedes desactivarlas ahora
-              o cuando quieras desde el pie de página.
-            </span>
+      <div class="muro__caja">
+        <div data-muro-pregunta>
+          <p class="muro__cejilla">Antes de entrar</p>
+          <h2 id="muro-titulo">Usamos cookies</h2>
+          <p id="muro-texto">
+            Propias, para que la página funcione, y de terceros —Meta y Microsoft
+            Clarity— para medir cómo se usa el sitio y el rendimiento de nuestros
+            anuncios. Para continuar necesitamos que lo aceptes.
           </p>
+          <div class="muro__botones">
+            <button type="button" class="muro__btn muro__btn--si" data-muro-aceptar>
+              Aceptar y entrar
+            </button>
+            <button type="button" class="muro__btn" data-muro-rechazar>No acepto</button>
+          </div>
         </div>
 
-        <div class="cookies__panel" data-cookies-panel hidden>
-          <label class="cookies__fila">
-            <input type="checkbox" checked disabled />
-            <span>
-              <b>Necesarias</b>
-              Hacen funcionar la página y recuerdan esta misma decisión. No se pueden desactivar.
-            </span>
-          </label>
-          <label class="cookies__fila">
-            <input type="checkbox" data-cookies-categoria="analitica" />
-            <span>
-              <b>Analítica</b>
-              Microsoft Clarity. Mapas de calor y grabación de sesión para ver qué partes de
-              la página se leen y cuáles se saltan.
-            </span>
-          </label>
-          <label class="cookies__fila">
-            <input type="checkbox" data-cookies-categoria="marketing" />
-            <span>
-              <b>Marketing</b>
-              Píxel de Meta. Mide qué anuncios traen compras y permite mostrarte los nuestros
-              en Facebook e Instagram.
-            </span>
-          </label>
-        </div>
-
-        <div class="cookies__botones">
-          <button type="button" class="cookies__btn cookies__btn--si" data-cookies-aceptar>
-            <span data-cookies-previo>Aceptar todo</span>
-            <span data-cookies-aviso hidden>Entendido</span>
-          </button>
-          <button type="button" class="cookies__btn" data-cookies-rechazar>
-            <span data-cookies-previo>Solo las necesarias</span>
-            <span data-cookies-aviso hidden>Desactivar</span>
-          </button>
-          <button type="button" class="cookies__btn cookies__btn--plano" data-cookies-configurar>
-            Configurar
-          </button>
-          <button
-            type="button"
-            class="cookies__btn cookies__btn--si cookies__btn--fin"
-            data-cookies-guardar
-            hidden
-          >
-            Guardar preferencias
-          </button>
+        <div data-muro-salida hidden>
+          <p class="muro__cejilla">Hasta aquí</p>
+          <h2>Sin aceptar no podemos mostrarte el sitio</h2>
+          <p>
+            Puedes cerrar esta pestaña o volver a donde estabas. Si cambias de idea,
+            el botón de abajo te deja entrar.
+          </p>
+          <div class="muro__botones">
+            <button type="button" class="muro__btn muro__btn--si" data-muro-volver>
+              Cambié de idea, acepto
+            </button>
+          </div>
         </div>
       </div>
     </div>
 
-    <script src="app.js?v=92567496" defer></script>
+    <script src="app.js?v=47840e79" defer></script>
   </body>
 </html>

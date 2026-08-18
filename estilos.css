@@ -1711,178 +1711,95 @@ footer a {
   border-color: var(--acento-claro);
 }
 
-/* ── Consentimiento de cookies ────────────────────────────────────────
- * Abajo y por encima de la barra fija de compra (z-index 60). Mientras
- * el banner está abierto la barra se esconde: no se pone un CTA de
- * compra encima de una pregunta que el visitante todavía no ha
- * respondido, y apiladas se tapan la una a la otra.
+/* ── Muro de entrada ──────────────────────────────────────────────────
+ * Tapa la pagina entera. z-index 200 para quedar por encima de todo lo
+ * que ya flota: WhatsApp (55) y la barra fija de compra (60).
  * ─────────────────────────────────────────────────────────────────── */
-.cookies {
+.muro {
   position: fixed;
-  inset: auto 0 0 0;
-  z-index: 70;
-  padding: 12px;
-  padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(20, 18, 16, 0.72);
+  backdrop-filter: blur(5px);
 }
-.cookies[hidden] {
+.muro[hidden] {
   display: none;
 }
-.cookies__caja {
-  max-width: var(--contenedor);
-  margin-inline: auto;
+/* El scroll del fondo se corta desde body: si no, el muro tapa la pagina
+   pero se sigue desplazando por detras. */
+body.muro-abierto {
+  overflow: hidden;
+}
+.muro__caja {
+  width: 100%;
+  max-width: 520px;
   background: var(--fondo);
-  border: 1px solid var(--borde);
   border-radius: var(--r-lg);
-  box-shadow: 0 -6px 30px -10px rgba(20, 18, 16, 0.35);
-  padding: 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  /* En pantallas bajas y con el panel abierto el contenido no cabe: se
-     desplaza dentro de la caja en vez de salirse por abajo. */
-  max-height: 82vh;
+  box-shadow: 0 24px 60px -20px rgba(20, 18, 16, 0.6);
+  padding: 26px 22px;
+  max-height: 88vh;
   overflow-y: auto;
 }
 @media (min-width: 768px) {
-  .cookies__caja {
-    padding: 20px 24px;
+  .muro__caja {
+    padding: 32px;
   }
 }
-.cookies__texto h2 {
-  font-size: 1.05rem;
-  margin-bottom: 4px;
+.muro__cejilla {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--acento-texto);
+  margin-bottom: 8px;
 }
-.cookies__texto p {
-  font-size: 0.88rem;
+.muro__caja h2 {
+  font-size: clamp(1.35rem, 5vw, 1.75rem);
+  margin-bottom: 12px;
+}
+.muro__caja p {
+  font-size: 0.95rem;
   color: var(--texto-suave);
-  max-width: 68ch;
 }
-
-.cookies__panel {
+.muro__botones {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  border-block: 1px solid var(--borde);
-  padding-block: 14px;
-}
-.cookies__panel[hidden] {
-  display: none;
-}
-.cookies__fila {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 11px;
-  align-items: start;
-  font-size: 0.84rem;
-  color: var(--texto-suave);
-  cursor: pointer;
-}
-.cookies__fila input {
-  width: 18px;
-  height: 18px;
-  margin: 2px 0 0;
-  accent-color: var(--acento);
-  cursor: pointer;
-}
-.cookies__fila input:disabled {
-  cursor: default;
-}
-.cookies__fila b {
-  display: block;
-  color: var(--texto);
-  font-size: 0.9rem;
-  margin-bottom: 2px;
-}
-
-/* Los tres botones tienen el mismo peso visual a propósito: "aceptar" no
-   puede ser grande y de color mientras "rechazar" es un enlace gris — eso
-   es un patrón oscuro, y en la práctica invalida el consentimiento. */
-.cookies__botones {
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
+  gap: 10px;
+  margin-top: 22px;
 }
 @media (min-width: 768px) {
-  .cookies__botones {
+  .muro__botones {
     flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
   }
 }
-.cookies__btn {
+.muro__btn {
   font-family: var(--cuerpo);
-  font-size: 0.92rem;
+  font-size: 0.98rem;
   font-weight: 700;
   line-height: 1.2;
-  padding: 13px 20px;
-  min-height: 46px;
+  padding: 15px 24px;
+  min-height: 52px;
   border-radius: var(--r-lg);
   border: 1px solid var(--borde);
   background: var(--fondo);
   color: var(--texto);
   cursor: pointer;
-  transition:
-    background 0.18s ease,
-    border-color 0.18s ease;
+  transition: background 0.18s ease;
 }
-.cookies__btn[hidden] {
-  display: none;
-}
-.cookies__btn:hover {
+.muro__btn:hover {
   background: var(--superficie);
 }
-.cookies__btn--si {
+.muro__btn--si {
   background: var(--acento-degradado);
   border-color: transparent;
   color: var(--acento-tinta);
 }
-.cookies__btn--si:hover {
+.muro__btn--si:hover {
   background: var(--acento-degradado);
   filter: brightness(1.06);
-}
-.cookies__btn--plano {
-  border-color: transparent;
-  background: none;
-  color: var(--acento-texto);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-.cookies__btn--plano:hover {
-  background: none;
-}
-/* El de la derecha es la accion que cierra el bloque: "Configurar"
-   cuando el panel esta plegado, "Guardar preferencias" cuando esta
-   abierto. Sin separarlo quedaban dos botones azules pegados y no se
-   sabia cual era cual. */
-@media (min-width: 768px) {
-  .cookies__btn--plano,
-  .cookies__btn--fin {
-    margin-left: auto;
-  }
-}
-
-/* Mientras se pregunta, la barra fija de compra se retira. */
-body.consentimiento-abierto .barra-fija {
-  transform: translateY(110%);
-  visibility: hidden;
-}
-
-/* Botón del pie que reabre las preferencias: se pinta como los enlaces
-   legales que tiene al lado, no como un botón. */
-.legales__boton {
-  font-family: var(--cuerpo);
-  font-size: inherit;
-  color: inherit;
-  background: none;
-  border: 0;
-  padding: 0;
-  text-align: left;
-  cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-.legales__boton[hidden] {
-  display: none;
 }
 
 /* ── Aparición al entrar en pantalla ──────────────────────────────────── */

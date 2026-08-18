@@ -482,261 +482,87 @@
     });
   }
 
-  // ══ Consentimiento y terceros ══════════════════════════════════════
-  // Regla del proyecto, sin excepciones: ni una peticion de red a un
-  // tercero antes de que el visitante decida. Nada de aqui abajo se
-  // ejecuta al arrancar — todo se registra con alConsentir() y solo corre
-  // si su categoria tiene permiso, sea ahora o cuando lo conceda mas tarde
-  // desde el pie.
-  var IDS = {
-    metaPixel: "1555727432954581",
-    clarity: "y46j54itlv",
-  };
+  // ══ Muro de entrada ═══════════════════════════════════════════════
+  // Decisión del cliente (18/08/2026): la medición no espera a nadie. El
+  // píxel de Meta y Clarity van en el head y se piden con la página; este
+  // muro NO los gobierna. Lo único que hace es recoger la aceptación y, sin
+  // ella, no dejar usar el sitio.
+  var CLAVE_ACEPTACION = "capcut-club:consentimiento";
 
-  var CLAVE_CONSENTIMIENTO = "capcut-club:consentimiento";
-  var permisos = null; // null = todavia no ha decidido
-  var cola = [];
-
-  function leerPermisos() {
+  function yaAcepto() {
     try {
-      var crudo = localStorage.getItem(CLAVE_CONSENTIMIENTO);
-      if (!crudo) return null;
-      var d = JSON.parse(crudo);
-      if (!d || typeof d !== "object") return null;
-      return { analitica: d.analitica === true, marketing: d.marketing === true };
+      return localStorage.getItem(CLAVE_ACEPTACION) === "aceptado";
     } catch (e) {
-      // Modo privado, almacenamiento lleno o JSON corrupto. Sin memoria se
-      // vuelve a preguntar, que es el lado seguro de este error.
-      return null;
+      // Modo privado o almacenamiento bloqueado: se vuelve a preguntar.
+      return false;
     }
   }
 
-  function guardarPermisos(p) {
-    try {
-      localStorage.setItem(CLAVE_CONSENTIMIENTO, JSON.stringify(p));
-    } catch (e) {}
-  }
+  function iniciarMuro() {
+    var muro = document.querySelector("[data-muro]");
+    if (!muro || yaAcepto()) return;
 
-  // Incluso con permiso, un script de tercero no compite con el render.
-  function enReposo(fn) {
-    if (window.requestIdleCallback) window.requestIdleCallback(fn, { timeout: 2500 });
-    else setTimeout(fn, 200);
-  }
+    var pregunta = muro.querySelector("[data-muro-pregunta]");
+    var salida = muro.querySelector("[data-muro-salida]");
+    var btnSi = muro.querySelector("[data-muro-aceptar]");
+    var btnNo = muro.querySelector("[data-muro-rechazar]");
+    var btnVolver = muro.querySelector("[data-muro-volver]");
 
-  // Donde el consentimiento tiene que ser PREVIO y explicito (UE, EEE y
-  // Reino Unido) no se carga nada hasta que el visitante responda. Fuera
-  // de ahi la medicion arranca con la pagina y se avisa, con la opcion de
-  // apagarla en el mismo sitio.
-  //
-  // Se mira la zona horaria del navegador: no cuesta una peticion de red
-  // —que es justo lo que no se puede hacer antes de tener permiso—, no
-  // identifica a nadie y funciona en modo privado. No es infalible: una
-  // VPN o alguien de viaje se cuela por cualquiera de los dos lados. Por
-  // eso el patron es ancho a proposito (Europe/* entera, no solo la UE) y
-  // si Intl falla se asume lo estricto.
-  function enRegionEstricta() {
-    try {
-      var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
-      return /^Europe\//.test(tz) || /^Atlantic\/(Canary|Madeira|Azores|Faroe|Reykjavik)/.test(tz);
-    } catch (e) {
-      return true;
-    }
-  }
-
-  function alConsentir(categoria, nombre, fn) {
-    cola.push({ categoria: categoria, nombre: nombre, fn: fn, hecho: false });
-    liberarCola();
-  }
-
-  function liberarCola() {
-    if (!permisos) return;
-    for (var i = 0; i < cola.length; i++) {
-      var t = cola[i];
-      if (t.hecho || !permisos[t.categoria]) continue;
-      // Se marca ANTES de ejecutar: si fn lanza, no se reintenta en bucle
-      // cada vez que alguien vuelva a tocar las preferencias.
-      t.hecho = true;
-      enReposo(envolver(t));
-    }
-  }
-
-  function envolver(t) {
-    return function () {
+    var entrar = function () {
       try {
-        t.fn();
+        localStorage.setItem(CLAVE_ACEPTACION, "aceptado");
       } catch (e) {}
-    };
-  }
-
-  // Un script de tercero falla por dos motivos muy distintos y hay que
-  // distinguirlos, o se acaba reintentando contra un bloqueador de
-  // anuncios: si el error llega casi instantaneo es que lo ha cortado una
-  // extension o el navegador — eso es intencional y no se reintenta. Si
-  // tarda, es red de verdad y ahi si vale un segundo intento.
-  // En los dos casos se abandona en silencio: un pixel que no carga no
-  // debe ensuciar la consola ni afectar a la pagina.
-  function cargarScript(src, intentos) {
-    var restantes = typeof intentos === "number" ? intentos : 2;
-    var pedir = function (n) {
-      var arrancado = Date.now();
-      var s = document.createElement("script");
-      s.src = src;
-      s.async = true;
-      s.onerror = function () {
-        var bloqueado = Date.now() - arrancado < 250;
-        if (bloqueado || n >= restantes - 1) return;
-        setTimeout(function () {
-          pedir(n + 1);
-        }, n === 0 ? 1000 : 3000);
-      };
-      document.head.appendChild(s);
-    };
-    pedir(0);
-  }
-
-  // ── Los terceros, en cola ───────────────────────────────────────────
-  function registrarTerceros() {
-    // El pixel normalmente ya viene cargado desde el head, que es donde se
-    // pide lo antes posible. Esto cubre el caso que el head no puede: un
-    // visitante de la UE que acepta AHORA, o alguien que vuelve a activar
-    // marketing desde las preferencias. El `if (window.fbq) return` de
-    // abajo es lo que evita que se cargue dos veces.
-    if (IDS.metaPixel) {
-      alConsentir("marketing", "Meta Pixel", function () {
-        if (window.fbq) return;
-        var n = (window.fbq = function () {
-          n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
-        });
-        if (!window._fbq) window._fbq = n;
-        n.push = n;
-        n.loaded = true;
-        n.version = "2.0";
-        n.queue = [];
-        cargarScript("https://connect.facebook.net/en_US/fbevents.js");
-        window.fbq("init", IDS.metaPixel);
-        window.fbq("track", "PageView");
-      });
-    }
-
-    if (IDS.clarity) {
-      alConsentir("analitica", "Microsoft Clarity", function () {
-        window.clarity =
-          window.clarity ||
-          function () {
-            (window.clarity.q = window.clarity.q || []).push(arguments);
-          };
-        cargarScript("https://www.clarity.ms/tag/" + IDS.clarity);
-      });
-    }
-  }
-
-  function iniciarConsentimiento() {
-    var decidido = leerPermisos();
-    var estricta = enRegionEstricta();
-
-    // Fuera de region estricta el arranque es permitido por defecto: la
-    // medicion empieza con la pagina, no despues de un clic. Dentro no se
-    // asume nada — permisos se queda en null y la cola no libera nada.
-    permisos = decidido || (estricta ? null : { analitica: true, marketing: true });
-
-    registrarTerceros();
-
-    var caja = document.querySelector("[data-consentimiento]");
-    var reabrir = document.querySelector("[data-cookies-reabrir]");
-    if (!caja) return;
-
-    var panel = caja.querySelector("[data-cookies-panel]");
-    var casillas = caja.querySelectorAll("[data-cookies-categoria]");
-    var btnConfigurar = caja.querySelector("[data-cookies-configurar]");
-    var btnGuardar = caja.querySelector("[data-cookies-guardar]");
-    var btnAceptar = caja.querySelector("[data-cookies-aceptar]");
-    var btnRechazar = caja.querySelector("[data-cookies-rechazar]");
-
-    // El banner dice una cosa u otra segun el modo. Se conmutan los dos
-    // juegos de textos en vez de reescribirlos por JS: asi el HTML sigue
-    // siendo la fuente del copy y se puede corregir sin tocar el script.
-    var modo = function (aviso) {
-      Array.prototype.forEach.call(caja.querySelectorAll("[data-cookies-previo]"), function (el) {
-        el.hidden = aviso;
-      });
-      Array.prototype.forEach.call(caja.querySelectorAll("[data-cookies-aviso]"), function (el) {
-        el.hidden = !aviso;
-      });
+      muro.setAttribute("hidden", "");
+      document.body.classList.remove("muro-abierto");
     };
 
-    var abrir = function (conPanel, conFoco) {
-      // Las casillas reflejan lo ya decidido: reabrir las preferencias y
-      // encontrarlas en blanco haria pensar que se ha revocado algo.
-      Array.prototype.forEach.call(casillas, function (c) {
-        c.checked = !!(permisos && permisos[c.getAttribute("data-cookies-categoria")]);
-      });
-      if (panel) panel.hidden = !conPanel;
-      if (btnConfigurar) btnConfigurar.hidden = conPanel;
-      if (btnGuardar) btnGuardar.hidden = !conPanel;
-      caja.removeAttribute("hidden");
-      document.body.classList.add("consentimiento-abierto");
-      if (conFoco && btnAceptar) btnAceptar.focus();
+    var salir = function () {
+      // La pantalla se cambia ANTES de intentar salir. Las dos salidas de
+      // abajo fallan casi siempre —window.close solo funciona en pestañas
+      // que abrió un script, y history.back no hace nada si se llegó por
+      // enlace directo—, así que lo que tiene que quedar garantizado es
+      // que el visitante se queda mirando el muro y no la página.
+      if (pregunta) pregunta.hidden = true;
+      if (salida) salida.hidden = false;
+      if (btnVolver) btnVolver.focus();
+
+      try {
+        window.close();
+      } catch (e) {}
+      if (window.history.length > 1) {
+        try {
+          history.back();
+        } catch (e) {}
+      }
     };
 
-    var cerrar = function () {
-      caja.setAttribute("hidden", "");
-      document.body.classList.remove("consentimiento-abierto");
-    };
+    if (btnSi) btnSi.addEventListener("click", entrar);
+    if (btnVolver) btnVolver.addEventListener("click", entrar);
+    if (btnNo) btnNo.addEventListener("click", salir);
 
-    var decidir = function (p) {
-      permisos = p;
-      guardarPermisos(p);
-      cerrar();
-      liberarCola();
-    };
+    // Sin atrapar el tabulador, el muro tapa la página pero no la bloquea:
+    // con el teclado se sigue navegando todo lo que hay detrás.
+    muro.addEventListener("keydown", function (evento) {
+      if (evento.key !== "Tab") return;
+      var visibles = [];
+      Array.prototype.forEach.call(muro.querySelectorAll("button"), function (b) {
+        if (b.offsetParent !== null) visibles.push(b);
+      });
+      if (!visibles.length) return;
+      var primero = visibles[0];
+      var ultimo = visibles[visibles.length - 1];
+      if (evento.shiftKey && document.activeElement === primero) {
+        evento.preventDefault();
+        ultimo.focus();
+      } else if (!evento.shiftKey && document.activeElement === ultimo) {
+        evento.preventDefault();
+        primero.focus();
+      }
+    });
 
-    if (btnAceptar) {
-      btnAceptar.addEventListener("click", function () {
-        decidir({ analitica: true, marketing: true });
-      });
-    }
-    if (btnRechazar) {
-      btnRechazar.addEventListener("click", function () {
-        var yaCorriendo = !decidido && !estricta;
-        decidir({ analitica: false, marketing: false });
-        // Si la medicion ya habia arrancado, guardar la preferencia solo
-        // evita la proxima carga: Clarity sigue grabando esta sesion y fbq
-        // sigue en memoria. Un script de tercero no se descarga, asi que la
-        // unica forma honesta de apagarlo de verdad es recargar.
-        if (yaCorriendo) location.reload();
-      });
-    }
-    if (btnConfigurar) {
-      btnConfigurar.addEventListener("click", function () {
-        abrir(true, false);
-      });
-    }
-    if (btnGuardar) {
-      btnGuardar.addEventListener("click", function () {
-        var p = { analitica: false, marketing: false };
-        Array.prototype.forEach.call(casillas, function (c) {
-          p[c.getAttribute("data-cookies-categoria")] = c.checked;
-        });
-        decidir(p);
-      });
-    }
-
-    if (reabrir) {
-      // Se destapa solo aqui: sin JS no hay tracking que revocar.
-      reabrir.removeAttribute("hidden");
-      reabrir.addEventListener("click", function () {
-        abrir(true, true);
-      });
-    }
-
-    // El banner sale solo si nunca ha respondido. Si ya respondio, los
-    // terceros permitidos salieron por liberarCola() en alConsentir.
-    if (!decidido) {
-      modo(!estricta);
-      abrir(false, false);
-    } else {
-      modo(!estricta);
-    }
+    muro.removeAttribute("hidden");
+    document.body.classList.add("muro-abierto");
+    if (btnSi) btnSi.focus();
   }
 
   function iniciar() {
@@ -746,7 +572,7 @@
     iniciarTestimonios();
     iniciarVsl();
     iniciarComparativa();
-    iniciarConsentimiento();
+    iniciarMuro();
   }
 
   if (document.readyState === "loading") {
