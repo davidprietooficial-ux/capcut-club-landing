@@ -532,16 +532,68 @@ body.con-barra .wa-flotante {
   padding-top: 28px;
   padding-bottom: calc(var(--seccion-y) * 1.1);
 }
+/* Celular y tablet: una columna, y el orden del DOM ya es el bueno —
+   texto, imagen, botones. La imagen se mete entre el párrafo y los
+   botones a propósito: sin ella ahí, el primer pantallazo del celular es
+   solo tipografía y la foto queda debajo del pliegue.
+   Escritorio: vuelve a dos columnas, con el texto y los botones apilados
+   a la izquierda y la imagen ocupando las dos filas a la derecha. */
 .hero-rejilla {
   display: grid;
   grid-template-columns: 1fr;
   gap: 28px;
   align-items: center;
 }
+.hero-texto {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.hero-acciones {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 @media (min-width: 1024px) {
   .hero-rejilla {
     grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-    gap: 40px;
+    grid-template-areas:
+      "texto lateral"
+      "acciones lateral";
+    align-content: center;
+    column-gap: 40px;
+    row-gap: 22px;
+  }
+  .hero-texto {
+    grid-area: texto;
+    justify-content: flex-end;
+  }
+  .hero-acciones {
+    grid-area: acciones;
+  }
+  .hero-lateral {
+    grid-area: lateral;
+  }
+}
+
+/* Recortes de texto por etapa. El titular de celular es el mismo sin la
+   coletilla; el párrafo sí es otro texto. Van con display:none y no con
+   visibility para que el lector de pantalla lea uno solo. */
+.solo-movil {
+  display: block;
+}
+.desde-tablet {
+  display: none;
+}
+@media (min-width: 768px) {
+  .solo-movil {
+    display: none;
+  }
+  .desde-tablet {
+    display: inline;
+  }
+  p.desde-tablet {
+    display: block;
   }
 }
 .marca {
@@ -612,11 +664,48 @@ body.con-barra .wa-flotante {
     max-width: 100%;
   }
 }
+/* En celular los dos botones van a ancho completo y apilados: en 390px
+   el primero ya ocupa casi toda la línea, y dejarlos en fila deja el
+   segundo colgando medio vacío. */
+.hero-botones {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.hero-botones .btn {
+  width: 100%;
+}
+@media (min-width: 768px) {
+  .hero-botones {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .hero-botones .btn {
+    width: auto;
+  }
+}
+
+/* Una garantía por línea en celular: en fila se parten a mitad de frase
+   y se leen como una sola cadena de texto sin sentido.
+   align-items:center centra cada línea sobre el eje horizontal de la
+   columna, igual que el texto de los botones de arriba — pegadas a la
+   izquierda bajo dos botones centrados se leían como otro bloque.
+   Al pasar a fila en tablet ese mismo align-items pasa a ser el eje
+   vertical, que es donde ya estaban: el escritorio no cambia. */
 .prueba-hero {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px 22px;
-  padding-top: 4px;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+@media (min-width: 768px) {
+  .prueba-hero {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 8px 22px;
+    padding-top: 4px;
+  }
 }
 .prueba-hero span {
   font-size: 0.84rem;
@@ -707,35 +796,142 @@ body.con-barra .wa-flotante {
   letter-spacing: 0.06em;
 }
 
-/* ── Video ────────────────────────────────────────────────────────────── */
-.video-marco {
-  /* width:100% es obligatorio, no decorativo: el padre es un flex en
-     columna y `margin-inline:auto` a los dos lados desactiva el estirado,
-     así que sin esto el marco se encogía a su contenido en vez de ocupar
-     los 900px. Mismo caso en .comparativa. */
+/* ── Video de presentación ────────────────────────────────────────────
+ * Es el mismo componente que los testimonios (.reproductor) y solo se le
+ * cambia la forma: proporción nativa del archivo, 1440×936, en vez del
+ * 9/16 vertical. No es 16/9 porque es una grabación de pantalla y
+ * recortarla se comería parte de la interfaz que el recorrido señala.
+ * El <video> mide igual que el marco, así que el object-fit:cover que
+ * hereda no llega a recortar nada.
+ * Las reglas van con doble clase para no depender del orden del archivo:
+ * .reproductor se define más abajo y ganaría por cascada.
+ * ─────────────────────────────────────────────────────────────────── */
+.reproductor.vsl {
+  aspect-ratio: 1440 / 936;
+  /* Sin width:100% el margin-inline:auto dentro del flex en columna deja
+     el marco en su ancho de contenido. Misma nota que en .comparativa. */
   width: 100%;
   max-width: 900px;
   margin-inline: auto;
-  aspect-ratio: 16 / 9;
-  border-radius: var(--r-lg);
-  background: var(--oscuro);
   border: 1px solid var(--borde-oscuro);
-  display: grid;
-  place-items: center;
-  color: var(--texto-claro-suave);
-  text-align: center;
-  padding: 20px;
-  gap: 10px;
 }
-.video-marco .play {
-  width: 62px;
-  height: 62px;
-  border-radius: 50%;
+/* 62px es la medida del botón sobre un vertical de 380px; sobre 900px de
+   ancho se queda corto. */
+.reproductor.vsl .reproductor__boton {
+  width: 76px;
+  height: 76px;
+  padding-left: 4px;
+}
+
+/* Aviso de pausa. Va justo debajo del botón de play: sobre un fotograma
+   congelado el botón solo se lee como decoración, y con 2:19 por delante
+   conviene decir que aquello sigue. Solo se ve con el video activado y en
+   pausa — la clase la pone app.js.
+   visibility y no display:none para que la aparición pueda tener
+   transición y para que no empuje nada al aparecer. */
+.reproductor__aviso {
+  position: absolute;
+  /* 52px = medio botón de 76 (38) + 14 de aire. */
+  top: calc(50% + 52px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  margin: 0;
+  white-space: nowrap;
+  border-radius: 999px;
+  padding: 8px 15px;
+  background: rgba(20, 18, 16, 0.72);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1;
+  pointer-events: none;
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.2s ease,
+    visibility 0.2s ease;
+}
+.reproductor--en-pausa .reproductor__aviso {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Botón propio de pantalla completa. Arriba a la derecha y no abajo: el
+   pie ya lleva la barra de progreso y el rótulo, y en pantalla completa
+   este botón es la única salida — tiene que estar donde no lo tape nada.
+   z-index 3 para quedar por encima del pie (1) y del play (2). */
+.reproductor__completa {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 0;
+  border-radius: 999px;
+  padding: 8px 13px;
+  background: rgba(20, 18, 16, 0.62);
+  color: #fff;
+  font-family: var(--cuerpo);
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition:
+    background 0.18s ease,
+    transform 0.18s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+.reproductor__completa[hidden] {
+  display: none;
+}
+.reproductor__completa:hover {
+  background: rgba(20, 18, 16, 0.85);
+  transform: scale(1.04);
+}
+/* Ya se forzó la pantalla completa una vez y el visitante salió: forzarla
+   otra vez sería secuestrarle el gesto, así que el botón pasa a sugerirla.
+   Salta con la misma animación que los CTA de la página —no se inventa un
+   movimiento nuevo para esto— y se pinta con el azul de marca, porque la
+   píldora oscura translúcida se pierde sobre un video que se mueve. */
+.reproductor--sugiere .reproductor__completa {
   background: var(--acento-degradado);
-  display: grid;
-  place-items: center;
-  margin-inline: auto;
-  margin-bottom: 12px;
+  color: var(--acento-tinta);
+  animation: salto 3.4s cubic-bezier(0.34, 1.4, 0.64, 1) infinite;
+}
+.reproductor--sugiere .reproductor__completa:hover {
+  background: var(--acento-degradado);
+  animation-play-state: paused;
+}
+
+/* Dentro de pantalla completa crece: en un celular apaisado y en la mano,
+   un objetivo de 30px de alto no se acierta. */
+.reproductor--completa .reproductor__completa {
+  top: 16px;
+  right: 16px;
+  padding: 12px 18px;
+  font-size: 0.9rem;
+}
+
+/* En pantalla completa el marco deja de ser una caja con proporción fija
+   y pasa a ser la pantalla. object-fit:contain y no cover: aquí sí puede
+   haber diferencia de proporción con el dispositivo, y recortar el video
+   sería tapar interfaz. */
+.reproductor:fullscreen,
+.reproductor:-webkit-full-screen {
+  aspect-ratio: auto;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  border: 0;
+  border-radius: 0;
+}
+.reproductor:fullscreen .reproductor__video,
+.reproductor:-webkit-full-screen .reproductor__video {
+  object-fit: contain;
 }
 
 /* ── Lista editorial (dolores y pilares) ──────────────────────────────── */
@@ -882,6 +1078,12 @@ body.con-barra .wa-flotante {
  * foto. Móvil: apilado. Escritorio: foto a la izquierda, todo lo demás
  * a la derecha.
  * ─────────────────────────────────────────────────────────────────── */
+/* Celular y tablet: una columna, y el orden del DOM ya es el bueno —
+   título, foto, párrafo. Se presenta a quien habla antes de enseñarlo;
+   con la foto arriba del todo, el visitante ve una cara sin saber de
+   quién es y el nombre le llega media pantalla más abajo.
+   Escritorio: la foto vuelve a la izquierda ocupando las dos filas, con
+   el título y el párrafo apilados a su derecha. */
 .bio {
   display: grid;
   grid-template-columns: 1fr;
@@ -891,9 +1093,29 @@ body.con-barra .wa-flotante {
 @media (min-width: 1024px) {
   .bio {
     grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+    grid-template-areas:
+      "foto titulo"
+      "foto texto";
+    /* La fila del título se clava a su contenido. Sin esto, la foto —que
+       ocupa las dos filas y es más alta que el texto— reparte su sobra
+       entre las dos, la primera crece y el título queda flotando lejos
+       del párrafo. */
+    grid-template-rows: min-content 1fr;
     column-gap: 44px;
-    row-gap: 26px;
-    align-items: center;
+    /* 14px y no 26: es la misma separación que .bio__texto usa entre sus
+       párrafos, así el título queda pegado al texto como cuando estaban
+       dentro del mismo bloque. */
+    row-gap: 14px;
+    align-items: start;
+  }
+  .bio__foto {
+    grid-area: foto;
+  }
+  .bio__titulo {
+    grid-area: titulo;
+  }
+  .bio__texto {
+    grid-area: texto;
   }
 }
 /* Las cifras van dentro de la columna de texto: en la columna estrecha
@@ -947,8 +1169,8 @@ body.con-barra .wa-flotante {
   justify-items: center;
   align-items: center;
   gap: 12px;
-  /* Ver la nota de .video-marco: sin width:100% el margin-inline:auto
-     dentro del flex en columna deja la rejilla en su ancho de contenido. */
+  /* Ver la nota de .reproductor.vsl: sin width:100% el margin-inline:auto dentro
+     del flex en columna deja la rejilla en su ancho de contenido. */
   width: 100%;
   max-width: 1000px;
   margin-inline: auto;
@@ -966,9 +1188,9 @@ body.con-barra .wa-flotante {
 }
 @media (min-width: 768px) {
   .comparativa > div {
-    /* 380 y no más: a 9/16 da 676px de alto, que cabe bajo el max-height
-       de 700 del clip. Más ancho y el max-height recortaría la altura,
-       rompiendo la proporción vertical del video. */
+    /* 380 y no más: a 9/16 da 676px de alto, que es lo que cabe en
+       pantalla junto al rótulo sin obligar a hacer scroll para ver el
+       clip entero. Más ancho y la comparación deja de leerse de un vistazo. */
     max-width: 380px;
   }
 }
@@ -983,19 +1205,6 @@ body.con-barra .wa-flotante {
     font-size: 3rem;
     transform: none;
   }
-}
-.clip {
-  aspect-ratio: 9 / 16;
-  max-height: 700px;
-  background: var(--elevada);
-  border: 1px solid var(--borde);
-  border-radius: var(--r-lg);
-  display: grid;
-  place-items: center;
-  color: var(--texto-suave);
-  font-size: 0.86rem;
-  text-align: center;
-  padding: 16px;
 }
 .etiqueta-clip {
   display: inline-flex;
@@ -1012,6 +1221,25 @@ body.con-barra .wa-flotante {
     font-size: 1rem;
   }
 }
+/* Los clips de antes/después no son un reproductor: no hay botón, ni
+   barra, ni cursor de "esto se pulsa". Solo la caja y el video dentro.
+   Misma forma que .reproductor para que la sección siga leyéndose igual,
+   pero sin ninguno de sus comportamientos. */
+.clip-bucle {
+  position: relative;
+  overflow: hidden;
+  background: #000;
+  border-radius: var(--r-lg);
+  aspect-ratio: 9 / 16;
+}
+.clip-bucle video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .etiqueta-clip.antes {
   color: var(--rojo);
 }
@@ -1029,6 +1257,12 @@ body.con-barra .wa-flotante {
   display: flex;
   gap: 14px;
   overflow-x: auto;
+  /* Obligatorio, no cosmético: con overflow-x en auto, el otro eje deja
+     de ser `visible` y pasa a `auto` solo. Y las tarjetas que todavía no
+     han entrado en pantalla conservan el translateY(14px) de
+     [data-revelar], así que el carrusel quedaba con unos píxeles de sobra
+     vertical que se podían arrastrar con el dedo. */
+  overflow-y: hidden;
   scroll-snap-type: x mandatory;
   padding-bottom: 8px;
   -webkit-overflow-scrolling: touch;
@@ -1037,6 +1271,25 @@ body.con-barra .wa-flotante {
   flex: none;
   width: 68%;
   scroll-snap-align: center;
+}
+/* Dentro del carrusel la aparición es SOLO de opacidad. El translateY de
+   [data-revelar] deja unos píxeles de sobra vertical dentro del carril
+   —y las tarjetas que aún no han entrado en pantalla lo conservan
+   indefinidamente, porque el observador no las ve mientras estén
+   desplazadas a la derecha—. Con overflow-y en hidden el dedo ya no las
+   arrastra, pero un scrollIntoView del navegador sí podría: mejor que la
+   sobra no exista. Desde tablet el carrusel pasa a rejilla y el
+   deslizamiento vuelve. */
+.testimonios > [data-revelar] {
+  transform: none;
+}
+@media (min-width: 768px) {
+  .testimonios > [data-revelar] {
+    transform: translateY(14px);
+  }
+  .testimonios > [data-revelar].visible {
+    transform: none;
+  }
 }
 @media (min-width: 768px) {
   .testimonios {
@@ -1458,6 +1711,180 @@ footer a {
   border-color: var(--acento-claro);
 }
 
+/* ── Consentimiento de cookies ────────────────────────────────────────
+ * Abajo y por encima de la barra fija de compra (z-index 60). Mientras
+ * el banner está abierto la barra se esconde: no se pone un CTA de
+ * compra encima de una pregunta que el visitante todavía no ha
+ * respondido, y apiladas se tapan la una a la otra.
+ * ─────────────────────────────────────────────────────────────────── */
+.cookies {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 70;
+  padding: 12px;
+  padding-bottom: calc(12px + env(safe-area-inset-bottom));
+}
+.cookies[hidden] {
+  display: none;
+}
+.cookies__caja {
+  max-width: var(--contenedor);
+  margin-inline: auto;
+  background: var(--fondo);
+  border: 1px solid var(--borde);
+  border-radius: var(--r-lg);
+  box-shadow: 0 -6px 30px -10px rgba(20, 18, 16, 0.35);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  /* En pantallas bajas y con el panel abierto el contenido no cabe: se
+     desplaza dentro de la caja en vez de salirse por abajo. */
+  max-height: 82vh;
+  overflow-y: auto;
+}
+@media (min-width: 768px) {
+  .cookies__caja {
+    padding: 20px 24px;
+  }
+}
+.cookies__texto h2 {
+  font-size: 1.05rem;
+  margin-bottom: 4px;
+}
+.cookies__texto p {
+  font-size: 0.88rem;
+  color: var(--texto-suave);
+  max-width: 68ch;
+}
+
+.cookies__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-block: 1px solid var(--borde);
+  padding-block: 14px;
+}
+.cookies__panel[hidden] {
+  display: none;
+}
+.cookies__fila {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 11px;
+  align-items: start;
+  font-size: 0.84rem;
+  color: var(--texto-suave);
+  cursor: pointer;
+}
+.cookies__fila input {
+  width: 18px;
+  height: 18px;
+  margin: 2px 0 0;
+  accent-color: var(--acento);
+  cursor: pointer;
+}
+.cookies__fila input:disabled {
+  cursor: default;
+}
+.cookies__fila b {
+  display: block;
+  color: var(--texto);
+  font-size: 0.9rem;
+  margin-bottom: 2px;
+}
+
+/* Los tres botones tienen el mismo peso visual a propósito: "aceptar" no
+   puede ser grande y de color mientras "rechazar" es un enlace gris — eso
+   es un patrón oscuro, y en la práctica invalida el consentimiento. */
+.cookies__botones {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+@media (min-width: 768px) {
+  .cookies__botones {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+}
+.cookies__btn {
+  font-family: var(--cuerpo);
+  font-size: 0.92rem;
+  font-weight: 700;
+  line-height: 1.2;
+  padding: 13px 20px;
+  min-height: 46px;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--borde);
+  background: var(--fondo);
+  color: var(--texto);
+  cursor: pointer;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease;
+}
+.cookies__btn[hidden] {
+  display: none;
+}
+.cookies__btn:hover {
+  background: var(--superficie);
+}
+.cookies__btn--si {
+  background: var(--acento-degradado);
+  border-color: transparent;
+  color: var(--acento-tinta);
+}
+.cookies__btn--si:hover {
+  background: var(--acento-degradado);
+  filter: brightness(1.06);
+}
+.cookies__btn--plano {
+  border-color: transparent;
+  background: none;
+  color: var(--acento-texto);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.cookies__btn--plano:hover {
+  background: none;
+}
+/* El de la derecha es la accion que cierra el bloque: "Configurar"
+   cuando el panel esta plegado, "Guardar preferencias" cuando esta
+   abierto. Sin separarlo quedaban dos botones azules pegados y no se
+   sabia cual era cual. */
+@media (min-width: 768px) {
+  .cookies__btn--plano,
+  .cookies__btn--fin {
+    margin-left: auto;
+  }
+}
+
+/* Mientras se pregunta, la barra fija de compra se retira. */
+body.consentimiento-abierto .barra-fija {
+  transform: translateY(110%);
+  visibility: hidden;
+}
+
+/* Botón del pie que reabre las preferencias: se pinta como los enlaces
+   legales que tiene al lado, no como un botón. */
+.legales__boton {
+  font-family: var(--cuerpo);
+  font-size: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.legales__boton[hidden] {
+  display: none;
+}
+
 /* ── Aparición al entrar en pantalla ──────────────────────────────────── */
 [data-revelar] {
   opacity: 0;
@@ -1483,7 +1910,8 @@ footer a {
   .banda .pista,
   .btn--neon,
   .btn--vivo,
-  .cupos .punto {
+  .cupos .punto,
+  .reproductor--sugiere .reproductor__completa {
     animation: none !important;
   }
   .banda .pista {

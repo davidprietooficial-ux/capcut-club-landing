@@ -37,7 +37,14 @@
           <b>23 USD</b>
           <s>antes 67</s>
         </span>
-        <a class="btn btn--neon" href="#oferta">Entrar al CapCut Club — 23 USD</a>
+        <a
+              class="btn btn--neon"
+              data-checkout
+              href="https://pay.hotmart.com/M107158341L?off=oynghv9l&amp;checkoutMode=10&amp;bid=1786761312497"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Entrar al CapCut Club — 23 USD</a
+            >
       </div>
     </div>
 
@@ -69,25 +76,33 @@
           <span class="barra"></span>
           <span class="sub">Edición 2026</span>
         </div>
+        <!-- Tres hermanos y no dos: en celular el orden es texto → imagen →
+             botones, y para intercalar la imagen entre el párrafo y los
+             botones tienen que estar todos al mismo nivel de la rejilla.
+             En escritorio vuelven a dos columnas con grid-template-areas. -->
         <div class="hero-rejilla">
-          <div class="pila">
+          <div class="hero-texto">
             <p class="cejilla">Formación completa · acceso inmediato</p>
-            <h1>Edita en CapCut como un profesional, no como un tutorial de YouTube</h1>
-            <p class="lead">
+            <!-- El h1 de celular es este mismo sin la coletilla: se corta el
+                 span y no se duplica el titular, que en el código fuente se
+                 leería dos veces seguidas. -->
+            <h1>
+              Edita en CapCut como un profesional<span class="desde-tablet"
+                >, no como un tutorial de YouTube</span
+              >
+            </h1>
+            <!-- El párrafo sí son dos textos distintos, no un recorte: en
+                 celular tiene que caber en dos líneas para que la imagen
+                 entre en pantalla sin hacer scroll. -->
+            <p class="lead solo-movil">
+              Primero el criterio de un editor. Después CapCut a fondo, en celular y en
+              computador.
+            </p>
+            <p class="lead desde-tablet">
               Seis módulos que empiezan por el criterio de un editor — ritmo, corte, composición — y
               terminan con CapCut dominado en celular y en computador. Sin depender de plantillas ni
               de tener “buen ojo”.
             </p>
-
-            <div style="display: flex; flex-wrap: wrap; gap: 12px; padding-top: 4px">
-              <a class="btn btn--vivo" href="#oferta">Entrar al CapCut Club — 23 USD</a>
-              <a class="btn btn--fantasma" href="#modulos">Ver el temario</a>
-            </div>
-            <div class="prueba-hero">
-              <span>7 días de garantía</span>
-              <span>Acceso por 12 meses renovable</span>
-              <span>Pago único</span>
-            </div>
           </div>
 
           <!-- El contador va justo encima del banner, no en la columna de
@@ -106,6 +121,25 @@
                 fetchpriority="high"
                 decoding="async"
               />
+            </div>
+          </div>
+
+          <div class="hero-acciones">
+            <div class="hero-botones">
+              <a
+                class="btn btn--vivo"
+                data-checkout
+                href="https://pay.hotmart.com/M107158341L?off=oynghv9l&amp;checkoutMode=10&amp;bid=1786761312497"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Entrar al CapCut Club — 23 USD</a
+              >
+              <a class="btn btn--fantasma" href="#modulos">Ver el temario</a>
+            </div>
+            <div class="prueba-hero">
+              <span>7 días de garantía</span>
+              <span>Acceso por 12 meses renovable</span>
+              <span>Pago único</span>
             </div>
           </div>
         </div>
@@ -137,21 +171,95 @@
       </div>
     </div>
 
-    <!-- ══ 03 · Video de presentación ═══════════════════════════════════
-         Marcador de posición: el archivo todavía no está entregado. En
-         cuanto llegue, se cambia este bloque por un <video> autoalojado
-         16:9 con poster. -->
+    <!-- ══ 03 · Video de presentación ═════════════════════════════════════════════
+         Recorrido por el área de miembros, 2:19. Usa el mismo reproductor
+         que los testimonios y entra en su grupo: vista previa muda en
+         bucle mientras está a la vista, sonido real al pulsar, y un solo
+         video sonando en toda la página. Los controles nativos vuelven
+         en cuanto suena — 2:19 sin barra para adelantar no se navega.
+         data-pantalla-completa: en celular se abre a pantalla completa
+         en horizontal, que es como se grabó. -->
     <section class="crema">
       <div class="env pila">
-        <div class="video-marco" data-revelar>
-          <div>
-            <div class="play">
-              <svg width="20" height="22" viewBox="0 0 20 22" aria-hidden="true">
-                <path d="M0 0v22l20-11z" fill="#ffffff" />
-              </svg>
+        <div class="pila-sm centro" data-revelar>
+          <p class="cejilla">Por dentro</p>
+          <h2>Esto es lo que hay al entrar</h2>
+          <p class="lead">
+            Dos minutos por el área de miembros: los seis módulos, las clases y cómo se ve la
+            plataforma por dentro. Grabado tal cual, sin montaje.
+          </p>
+        </div>
+        <div
+          class="reproductor vsl"
+          data-reproductor="vsl"
+          data-pantalla-completa
+          data-revelar
+        >
+          <video
+            class="reproductor__video"
+            data-reproductor-video
+            controls
+            controlslist="nodownload noplaybackrate"
+            playsinline
+            muted
+            preload="none"
+            poster="activos/vsl.webp"
+            width="1440"
+            height="936"
+            aria-label="Recorrido en video por el área de miembros del CapCut Club"
+          >
+            <source src="activos/vsl.mp4" type="video/mp4" />
+          </video>
+          <button
+            type="button"
+            class="reproductor__boton"
+            data-reproductor-boton
+            aria-label="Reproducir con sonido el recorrido por el área de miembros"
+          >
+            <svg data-icono-play width="30" height="30" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+            <svg data-icono-pausa style="display: none" width="30" height="30" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M7 5h4v14H7zM13 5h4v14h-4z" />
+            </svg>
+          </button>
+          <!-- Solo aparece con el video activado y en pausa: en vista
+               previa no hay nada que reanudar. aria-hidden porque repite
+               lo que el botón ya dice en su aria-label. -->
+          <p class="reproductor__aviso" data-vsl-aviso aria-hidden="true">
+            Pausado · dale play para seguir
+          </p>
+          <!-- Botón propio de pantalla completa. Nace oculto y lo destapa
+               app.js: sin JS no haría nada. Es la única salida cuando se
+               está en pantalla completa, así que se queda visible dentro. -->
+          <button
+            type="button"
+            class="reproductor__completa"
+            data-vsl-completa
+            hidden
+            aria-label="Ver en pantalla completa"
+          >
+            <svg data-icono-abrir width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M4 9V4h5v2H6v3H4zm11-5h5v5h-2V6h-3V4zM4 15h2v3h3v2H4v-5zm14 3v-3h2v5h-5v-2h3z" />
+            </svg>
+            <svg data-icono-cerrar style="display: none" width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M9 4v5H4V7h3V4h2zm6 0h2v3h3v2h-5V4zM4 15h5v5H7v-3H4v-2zm13 2v3h-2v-5h5v2h-3z" />
+            </svg>
+            <span data-vsl-completa-texto>Pantalla completa</span>
+          </button>
+          <div class="reproductor__pie">
+            <div
+              class="reproductor__barra"
+              data-reproductor-barra
+              role="progressbar"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="0"
+              aria-label="Progreso del recorrido"
+            >
+              <div class="reproductor__barra-relleno" data-reproductor-relleno></div>
             </div>
-            <strong style="color: var(--texto-claro)">Video de presentación</strong>
-            <p style="font-size: 0.86rem; margin-top: 4px">Próximamente</p>
+            <p class="reproductor__nombre">Por dentro del club · 2:19</p>
           </div>
         </div>
       </div>
@@ -230,7 +338,14 @@
     <section>
       <div class="env centro pila">
         <h2 data-revelar>Quiero editar con criterio, no con plantillas</h2>
-        <div data-revelar><a class="btn btn--vivo" href="#oferta">Entrar al CapCut Club — 23 USD</a></div>
+        <div data-revelar><a
+              class="btn btn--vivo"
+              data-checkout
+              href="https://pay.hotmart.com/M107158341L?off=oynghv9l&amp;checkoutMode=10&amp;bid=1786761312497"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Entrar al CapCut Club — 23 USD</a
+            ></div>
       </div>
     </section>
 
@@ -305,7 +420,16 @@
          cerrando abajo a todo el ancho. -->
     <section>
       <div class="env">
+        <!-- El título va suelto y no dentro de .bio__texto: en celular
+             tiene que ir ENCIMA de la foto, y la foto encima del párrafo.
+             Con el título anidado no hay forma de intercalarla. En
+             escritorio los tres vuelven a su sitio con grid-template-areas. -->
         <div class="bio">
+          <div class="bio__titulo pila-sm" data-revelar>
+            <p class="cejilla">— Tu mentor</p>
+            <h2 class="bio__nombre">Soy <span>Juan Camilo</span></h2>
+          </div>
+
           <div class="bio__foto" data-revelar>
             <img
               src="activos/juan-perfil.webp"
@@ -319,10 +443,6 @@
           </div>
 
           <div class="bio__texto" data-revelar>
-            <div class="pila-sm">
-              <p class="cejilla">— Tu mentor</p>
-              <h2 class="bio__nombre">Soy <span>Juan Camilo</span></h2>
-            </div>
             <p class="lead">
               Llevo más de <strong>8 años editando</strong> contenido para marcas y creadores en más
               de <strong>15 industrias distintas</strong>. El material que he editado ha generado más
@@ -362,7 +482,14 @@
       </div>
     </section>
 
-    <!-- ══ 09 · Antes y después ═════════════════════════════════════════ -->
+    <!-- ══ 09 · Antes y después ═══════════════════════════════════════════════
+         Los dos clips son la misma toma y el mismo encuadre; lo único
+         que cambia es la edición. Van en bucle mudo y sin un solo control
+         encima: aquí no hay nada que reproducir ni que pausar, son dos
+         imágenes que se mueven y se comparan de un vistazo. El atributo
+         controls solo sobrevive si el visitante pidió menos movimiento
+         — ahí no arrancan solos y hace falta una forma de verlos.
+         Los dos pósters salen del mismo segundo. -->
     <section class="crema">
       <div class="env pila">
         <div class="pila-sm centro" data-revelar>
@@ -373,12 +500,44 @@
         <div class="comparativa" data-revelar>
           <div>
             <span class="etiqueta-clip antes">Antes · sin editar</span>
-            <div class="clip">Video vertical<br />material en bruto</div>
+            <div class="clip-bucle">
+              <video
+                data-bucle
+                controls
+                controlslist="nodownload noplaybackrate"
+                playsinline
+                muted
+                loop
+                preload="none"
+                poster="activos/antes-despues/antes.webp"
+                width="720"
+                height="1280"
+                aria-label="Clip sin editar: la toma en bruto, tal como salió de la cámara"
+              >
+                <source src="activos/antes-despues/antes.mp4" type="video/mp4" />
+              </video>
+            </div>
           </div>
           <span class="flecha emoji" role="img" aria-label="se convierte en">➡️</span>
           <div>
             <span class="etiqueta-clip despues">Después · con el método</span>
-            <div class="clip">Video vertical<br />editado</div>
+            <div class="clip-bucle">
+              <video
+                data-bucle
+                controls
+                controlslist="nodownload noplaybackrate"
+                playsinline
+                muted
+                loop
+                preload="none"
+                poster="activos/antes-despues/despues.webp"
+                width="720"
+                height="1280"
+                aria-label="El mismo clip editado con el método del CapCut Club"
+              >
+                <source src="activos/antes-despues/despues.mp4" type="video/mp4" />
+              </video>
+            </div>
           </div>
         </div>
       </div>
@@ -627,6 +786,7 @@
             <p class="precio-nota">Pago único. Acceso por 12 meses renovable.</p>
             <a
               class="btn btn--ancho btn--vivo"
+              data-checkout
               href="https://pay.hotmart.com/M107158341L?off=oynghv9l&amp;checkoutMode=10&amp;bid=1786761312497"
               target="_blank"
               rel="noopener noreferrer"
@@ -790,7 +950,14 @@
           Si en siete días te parece que no era para ti, Hotmart te devuelve el dinero sin que tengas
           que escribirnos.
         </p>
-        <div data-revelar><a class="btn btn--vivo" href="#oferta">Entrar al CapCut Club — 23 USD</a></div>
+        <div data-revelar><a
+              class="btn btn--vivo"
+              data-checkout
+              href="https://pay.hotmart.com/M107158341L?off=oynghv9l&amp;checkoutMode=10&amp;bid=1786761312497"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Entrar al CapCut Club — 23 USD</a
+            ></div>
       </div>
     </section>
 
@@ -840,6 +1007,12 @@
               <a href="#">Aviso legal</a>
               <a href="#">Términos y condiciones</a>
               <a href="#">Política de privacidad</a>
+              <!-- Retirar el consentimiento tiene que ser tan fácil como
+                   darlo. Nace oculto: sin JS no hay tracking que revocar,
+                   así que un enlace muerto sería peor que ninguno. -->
+              <button type="button" class="legales__boton" data-cookies-reabrir hidden>
+                Preferencias de cookies
+              </button>
             </div>
             <p style="font-size: 0.84rem; padding-top: 6px">
               Mirai Group Co S.A.S. — Todos los derechos reservados 2026
@@ -852,6 +1025,80 @@
         </p>
       </div>
     </footer>
+
+    <!-- ══ Consentimiento ══════════════════════════════════════════════
+         Ni una petición de red a un tercero antes de que esto se responda.
+         El píxel de Meta y Clarity no están en el HTML: viven en app.js
+         dentro de alConsentir(), y solo se piden si la categoría tiene
+         permiso. No hay <noscript> con el píxel de imagen a propósito —
+         eso dispararía sin poder preguntar nada.
+         Nace con hidden y lo destapa app.js solo si no hay decisión
+         guardada. -->
+    <div
+      class="cookies"
+      data-consentimiento
+      hidden
+      role="dialog"
+      aria-labelledby="cookies-titulo"
+      aria-describedby="cookies-texto"
+    >
+      <div class="cookies__caja">
+        <div class="cookies__texto">
+          <h2 id="cookies-titulo">Cookies</h2>
+          <p id="cookies-texto">
+            Las nuestras hacen que la página funcione y van siempre. Las de terceros miden
+            cómo se usa el sitio y el rendimiento de nuestros anuncios — esas solo si nos
+            dejas. Puedes cambiar de idea cuando quieras desde el pie de página.
+          </p>
+        </div>
+
+        <div class="cookies__panel" data-cookies-panel hidden>
+          <label class="cookies__fila">
+            <input type="checkbox" checked disabled />
+            <span>
+              <b>Necesarias</b>
+              Hacen funcionar la página y recuerdan esta misma decisión. No se pueden desactivar.
+            </span>
+          </label>
+          <label class="cookies__fila">
+            <input type="checkbox" data-cookies-categoria="analitica" />
+            <span>
+              <b>Analítica</b>
+              Microsoft Clarity. Mapas de calor y grabación de sesión para ver qué partes de
+              la página se leen y cuáles se saltan.
+            </span>
+          </label>
+          <label class="cookies__fila">
+            <input type="checkbox" data-cookies-categoria="marketing" />
+            <span>
+              <b>Marketing</b>
+              Píxel de Meta. Mide qué anuncios traen compras y permite mostrarte los nuestros
+              en Facebook e Instagram.
+            </span>
+          </label>
+        </div>
+
+        <div class="cookies__botones">
+          <button type="button" class="cookies__btn cookies__btn--si" data-cookies-aceptar>
+            Aceptar todo
+          </button>
+          <button type="button" class="cookies__btn" data-cookies-rechazar>
+            Solo las necesarias
+          </button>
+          <button type="button" class="cookies__btn cookies__btn--plano" data-cookies-configurar>
+            Configurar
+          </button>
+          <button
+            type="button"
+            class="cookies__btn cookies__btn--si cookies__btn--fin"
+            data-cookies-guardar
+            hidden
+          >
+            Guardar preferencias
+          </button>
+        </div>
+      </div>
+    </div>
 
     <script src="app.js" defer></script>
   </body>
