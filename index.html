@@ -33,6 +33,61 @@
          archivo cambia, la URL cambia sola. HAY QUE REGENERARLO EN CADA
          DESPLIEGUE. -->
     <link rel="stylesheet" href="estilos.css?v=d07440b2" />
+
+    <!-- ══ Meta Pixel ═══════════════════════════════════════════════════
+         Va aqui arriba y no en app.js a proposito: cargado tarde y por JS
+         el PageView llega con retraso y las herramientas de Meta pueden no
+         verlo. Aqui se pide mientras el navegador todavia esta leyendo el
+         head, que es lo antes que se puede.
+
+         Se salta en dos casos, y los dos se resuelven sin ninguna peticion
+         de red — leyendo la zona horaria y localStorage, que son sincronos:
+           1. Union Europea, EEE y Reino Unido sin permiso previo.
+           2. Quien pulso "Desactivar" en el aviso de cookies. Sin esta
+              comprobacion ese boton seria decorativo.
+         Fuera de eso arranca con la pagina, sin esperar ningun clic.
+
+         No lleva el <noscript><img> del fragmento original: esa imagen se
+         pide siempre, tambien en la UE y tambien a quien lo desactivo, y se
+         salta las dos condiciones de arriba. Sin JS la pagina no funciona
+         igualmente, asi que lo que aporta es cero. -->
+    <script>
+      (function () {
+        try {
+          var guardado = localStorage.getItem("capcut-club:consentimiento");
+          var permiso = guardado ? JSON.parse(guardado) : null;
+          if (permiso) {
+            if (!permiso.marketing) return;
+          } else {
+            var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+            if (/^Europe\//.test(tz) || /^Atlantic\/(Canary|Madeira|Azores|Faroe|Reykjavik)/.test(tz)) return;
+          }
+        } catch (e) {
+          // Sin Intl ni localStorage no se puede decidir: no se carga.
+          return;
+        }
+
+        // Fragmento oficial de Meta, sin tocar.
+        !(function (f, b, e, v, n, t, s) {
+          if (f.fbq) return;
+          n = f.fbq = function () {
+            n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+          };
+          if (!f._fbq) f._fbq = n;
+          n.push = n;
+          n.loaded = !0;
+          n.version = "2.0";
+          n.queue = [];
+          t = b.createElement(e);
+          t.async = !0;
+          t.src = v;
+          s = b.getElementsByTagName(e)[0];
+          s.parentNode.insertBefore(t, s);
+        })(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
+        fbq("init", "1555727432954581");
+        fbq("track", "PageView");
+      })();
+    </script>
   </head>
   <body>
     <!-- ══ Barra fija de compra — aparece al salir del hero ═════════════
@@ -1120,6 +1175,6 @@
       </div>
     </div>
 
-    <script src="app.js?v=baafea39" defer></script>
+    <script src="app.js?v=92567496" defer></script>
   </body>
 </html>

@@ -596,6 +596,11 @@
 
   // ── Los terceros, en cola ───────────────────────────────────────────
   function registrarTerceros() {
+    // El pixel normalmente ya viene cargado desde el head, que es donde se
+    // pide lo antes posible. Esto cubre el caso que el head no puede: un
+    // visitante de la UE que acepta AHORA, o alguien que vuelve a activar
+    // marketing desde las preferencias. El `if (window.fbq) return` de
+    // abajo es lo que evita que se cargue dos veces.
     if (IDS.metaPixel) {
       alConsentir("marketing", "Meta Pixel", function () {
         if (window.fbq) return;
